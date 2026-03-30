@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swift CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0c1a26;--sur:#112030;--sur2:#162c3e;--bdr:rgba(255,255,255,0.07);--bdr2:rgba(255,255,255,0.13);--blu:#2d7dd2;--blul:#6aaee8;--tel:#16b3a0;--amb:#f0a500;--ambd:rgba(240,165,0,0.13);--grn:#22c17a;--grnd:rgba(34,193,122,0.12);--red:#f05252;--redd:rgba(240,82,82,0.12);--yel:#f5c542;--yeld:rgba(245,197,66,0.12);--pur:#9b6dff;--purd:rgba(155,109,255,0.13);--txt:#e4edf5;--txt2:#7a9ab8;--txt3:#3f5c74;--mono:"IBM Plex Mono",monospace;--sans:"IBM Plex Sans",sans-serif;--disp:"Playfair Display",serif;--sw:230px;--rad:8px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--txt);font-size:13.5px;display:flex}
+#sb{width:var(--sw);background:var(--sur);border-right:1px solid var(--bdr);display:flex;flex-direction:column;height:100vh;flex-shrink:0}
+.brand{padding:18px 18px 14px;border-bottom:1px solid var(--bdr)}
+.brow{display:flex;align-items:center;gap:10px}
+.bico{width:34px;height:34px;background:linear-gradient(135deg,var(--blu),var(--tel));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.bname{font-family:var(--disp);font-size:17px;line-height:1}
+.bsub{font-size:9px;color:var(--txt3);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.5px;margin-top:7px}
+nav{flex:1;padding:8px 0;overflow-y:auto}
+.ng{padding:12px 16px 3px;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--txt3);font-family:var(--mono)}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;color:var(--txt2);font-size:13px;border-left:2px solid transparent;transition:all .15s;white-space:nowrap}
+.ni:hover{background:rgba(255,255,255,0.04);color:var(--txt)}
+.ni.active{background:rgba(45,125,210,0.1);color:var(--blul);border-left-color:var(--blu);font-weight:500}
+.ni-ic{width:16px;text-align:center;font-size:13px;flex-shrink:0}
+.sbot{padding:13px 16px;border-top:1px solid var(--bdr)}
+#main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+.topbar{height:52px;background:var(--sur);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0}
+.ptitle{font-family:var(--disp);font-size:19px;font-weight:400;flex:1}
+#ta{display:flex;align-items:center;gap:7px}
+#ct{flex:1;overflow-y:auto;padding:18px 20px}
+.btn{padding:6px 13px;border-radius:6px;border:none;cursor:pointer;font-family:var(--sans);font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:5px;transition:all .15s;white-space:nowrap}
+.bp{background:var(--blu);color:#fff}.bp:hover{background:#2268bb}
+.bg_{background:rgba(255,255,255,0.05);color:var(--txt2);border:1px solid var(--bdr2)}.bg_:hover{background:rgba(255,255,255,0.09);color:var(--txt)}
+.bd{background:var(--redd);color:var(--red);border:1px solid rgba(240,82,82,0.3)}.bd:hover{background:rgba(240,82,82,0.22)}
+.bsm{padding:5px 10px;font-size:12px}.bxs{padding:3px 8px;font-size:11px}
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:16px 18px}
+.chd{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);margin-bottom:12px}
+.stat{background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:14px 16px}
+.sl{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--txt3)}
+.sv{font-family:var(--disp);font-size:24px;font-weight:700;margin:4px 0 2px;line-height:1}
+.ss{font-size:11px;color:var(--txt2)}
+.up{color:var(--grn)}.dn{color:var(--red)}.am{color:var(--amb)}
+.badge{display:inline-flex;align-items:center;padding:2px 7px;border-radius:20px;font-size:10.5px;font-weight:600;font-family:var(--mono);white-space:nowrap}
+.bg{background:var(--grnd);color:var(--grn)}.br{background:var(--redd);color:var(--red)}.by{background:var(--yeld);color:var(--yel)}.bb{background:rgba(45,125,210,0.15);color:var(--blul)}.ba{background:var(--ambd);color:var(--amb)}.bgr{background:rgba(255,255,255,0.06);color:var(--txt2)}.bpu{background:var(--purd);color:var(--pur)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:8px 11px;font-size:9.5px;text-transform:uppercase;letter-spacing:1.2px;color:var(--txt3);font-family:var(--mono);border-bottom:1px solid var(--bdr);white-space:nowrap;cursor:pointer;user-select:none}
+th:hover{color:var(--txt2)}
+td{padding:9px 11px;border-bottom:1px solid var(--bdr);font-size:12.5px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,0.018)}
+.tl{cursor:pointer;font-weight:500;color:var(--txt)}.tl:hover{color:var(--blul)}
+.td{color:var(--txt2);font-size:12px}.tm{font-family:var(--mono);font-size:11.5px}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,0.68);backdrop-filter:blur(5px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{background:var(--sur2);border:1px solid var(--bdr2);border-radius:12px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;padding:22px;box-shadow:0 24px 56px rgba(0,0,0,.55)}
+.mt{font-family:var(--disp);font-size:19px;margin-bottom:16px}
+.mft{display:flex;justify-content:flex-end;gap:7px;margin-top:16px;padding-top:14px;border-top:1px solid var(--bdr)}
+.fr{margin-bottom:11px}
+.fr label{display:block;font-size:9.5px;text-transform:uppercase;letter-spacing:1px;color:var(--txt3);font-family:var(--mono);margin-bottom:4px}
+.fr input,.fr select,.fr textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--bdr2);border-radius:6px;padding:7px 10px;color:var(--txt);font-family:var(--sans);font-size:13px;outline:none;transition:border .15s}
+.fr input:focus,.fr select:focus,.fr textarea:focus{border-color:var(--blu)}
+.fr select option{background:var(--sur2)}
+.fr textarea{min-height:60px;resize:vertical;line-height:1.5}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--bdr);margin-bottom:14px}
+.tab{padding:7px 14px;cursor:pointer;font-size:13px;color:var(--txt2);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.tab:hover{color:var(--txt)}.tab.active{color:var(--blul);border-bottom-color:var(--blu);font-weight:500}
+.vc{background:var(--sur);border:1px solid var(--bdr);border-left:3px solid var(--blu);border-radius:var(--rad);padding:12px 14px;margin-bottom:9px}
+.vc.opp{border-left-color:var(--grn)}.vc.train{border-left-color:var(--amb)}.vc.esc{border-left-color:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.stl{font-family:var(--disp);font-size:14px;font-weight:400}
+.emp{text-align:center;padding:32px;color:var(--txt3)}
+.ei{font-size:28px;margin-bottom:6px;opacity:.4}
+.dv{height:1px;background:var(--bdr);margin:11px 0}
+.pill{display:inline-block;padding:2px 7px;border-radius:3px;font-size:10.5px;font-family:var(--mono);background:rgba(255,255,255,0.05);color:var(--txt2)}
+.sep{margin-bottom:14px}
+.sinp{padding:7px 10px 7px 28px;background:rgba(255,255,255,0.04);border:1px solid var(--bdr2);border-radius:6px;color:var(--txt);font-size:12.5px;outline:none;transition:border .15s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%233f5c74' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:9px center}
+.sinp:focus{border-color:var(--blu)}
+.fsel{padding:7px 10px;background:rgba(255,255,255,0.04);border:1px solid var(--bdr2);border-radius:6px;color:var(--txt);font-size:12.5px;cursor:pointer;outline:none}
+.fsel:focus{border-color:var(--blu)}.fsel option{background:var(--sur2)}
+#toast{position:fixed;bottom:18px;right:18px;background:var(--sur2);border:1px solid var(--bdr2);border-radius:8px;padding:10px 15px;font-size:13px;z-index:999;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;box-shadow:0 10px 28px rgba(0,0,0,.45)}
+#toast.show{opacity:1;transform:translateY(0)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px}
+</style>
+</head>
+<body>
+<div id="sb">
+  <div class="brand">
+    <div class="brow"><div class="bico">&#9889;</div><div class="bname">Swift CRM</div></div>
+    <div class="bsub">Distributor Pipeline</div>
+  </div>
+  <nav id="navEl">
+    <div class="ng">Overview</div>
+    <div class="ni" data-p="dashboard"><span class="ni-ic">&#9672;</span>Dashboard</div>
+    <div class="ng">Pipeline</div>
+    <div class="ni" data-p="pipeline"><span class="ni-ic">&#128202;</span>All Distributors</div>
+    <div class="ni" data-p="ind"><span class="ni-ic">&#127981;</span>Industrial (IND)</div>
+    <div class="ni" data-p="auto"><span class="ni-ic">&#128663;</span>Automotive (AUTO)</div>
+    <div class="ni" data-p="intl"><span class="ni-ic">&#127758;</span>International B2B</div>
+    <div class="ni" data-p="blm"><span class="ni-ic">&#127968;</span>B2B/BLM</div>
+    <div class="ng">Activity</div>
+    <div class="ni" data-p="visits"><span class="ni-ic">&#128222;</span>Sales Calls</div>
+    <div class="ni" data-p="tasks"><span class="ni-ic">&#9989;</span>Tasks List</div>
+    <div class="ni" data-p="opps"><span class="ni-ic">&#127775;</span>Opportunities</div>
+    <div class="ng">Analytics</div>
+    <div class="ni" data-p="reports"><span class="ni-ic">&#128200;</span>Reports</div>
+  </nav>
+  <div class="sbot">
+    <div style="display:flex;align-items:center;gap:8px">
+      <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1a3a5c,#2d7dd2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0">SR</div>
+      <div><div style="font-size:12px;font-weight:500">Sales Rep</div><div style="font-size:10px;color:var(--txt3)">Swift Tools</div></div>
+    </div>
+  </div>
+</div>
+<div id="main">
+  <div class="topbar">
+    <div class="ptitle" id="pt">Dashboard</div>
+    <div id="ta"></div>
+  </div>
+  <div id="ct"></div>
+</div>
+<div class="ov" id="ov" style="display:none"><div class="modal" id="mo"></div></div>
+<div id="toast"></div>
+
+<script id="sd" type="application/json">
+[{"id":"D001","name":"HD Supply","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Impact Sales","repName":"","notes":"Meeting with our new category manager on 12/8 face to face to discuss new additions to the stocking program and sellling in each qtys."},{"id":"D002","name":"HD Pro","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"Impact Sales","repName":"","notes":""},{"id":"D003","name":"ABC Supply","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"registered for 3 ABC supply shows in February 2026."},{"id":"D004","name":"Southern Carlson","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"Surpless & Dunn working on field de,amd generation"},{"id":"D005","name":"White Cap","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"Surpless & Dunn working on field de,amd generation"},{"id":"D006","name":"WB Mason","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"LSIG","repName":"","notes":"Have completed 21 branch/region sales team trainings.  Working with our category manager on Dropship program setup."},{"id":"D007","name":"Southern Fastener","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"CMC South","repName":"","notes":"Small distributor - Chris at CMC South will handle."},{"id":"D008","name":"Global Industrial","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"10/3/25:  All 100 SKU's are now live on their website."},{"id":"D009","name":"Zoro","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"All products listed and moved to Swift as the supplier.  Confirmed completion 9/23/25"},{"id":"D010","name":"HJC Parts Express","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"1st PO in September"},{"id":"D011","name":"MSC","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Turpin","repName":"Dawn Borchers","notes":"All product information has been submitted.  Last step is finalizing the agreement and the ball is in our hands on the indemnification portion."},{"id":"D012","name":"Clark Associates","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"All product information has been loaded and agreement signed.  Luisa working on EDI Implementation."},{"id":"D013","name":"VOOMI Supply","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"LSIG","repName":"","notes":"3/10/26: live"},{"id":"D014","name":"Travers Tool","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Turpin","repName":"Dawn Borchers","notes":"3.12.26:  full speed ahead with a stocking program with dropship as well.  Dawn will forward all supplier onboarding documents for processing."},{"id":"D015","name":"Gordon Food Service & Orderve","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"Currently working on product setup, all needed information has been submitted."},{"id":"D016","name":"HAJOCA","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"No","assignedRep":"","repName":"","notes":"Working on product setup.  Very similar to ABC, Southern Carlson, Fastenal.  Need to create demand in the field with branches."},{"id":"D017","name":"Essendant (Wholesale Industrial)","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"Product setup - Justin is working on and will complete by 12/18.  EDI implementation - Luisa is working on.  Go live target is April 1st, 2026."},{"id":"D018","name":"BradyPlus","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"No","assignedRep":"","repName":"","notes":"Approved to move forward on onboarding as a supplier.  Rick/Adi currently reviewing the agreement after Gunster red-lined aggressively."},{"id":"D019","name":"Wesco - EES","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"All products setup in the Wesco and Anixter systems.  We need to go through EDI implementation as the next steps."},{"id":"D020","name":"Helton Tool & Co.","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"Met Allen at STAFDA and they are very interested in bringing us on.  I submitted our pricing and credit application to him and he is going to return as time allows.  He said they are in the middle of inventory and they are currently onboaridng 3 other large MFG's so probably looking at a Q1 2026 onboarding."},{"id":"D021","name":"Site One","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26: followed up with Wes to see if he is back from paternity leave."},{"id":"D022","name":"S.P. Richards","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"LSIG","repName":"","notes":"3/25/26:  SPS edi is setup and ready to go.  Waiting on SPR to load products and turn us on,."},{"id":"D023","name":"Total Maintenance Solutions","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  Almost ready to go, submitted our w9 and banking information."},{"id":"D024","name":"Applied Maintenance Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D025","name":"Ferguson","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D026","name":"Motion Industries","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D027","name":"Vallen","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D028","name":"ORS Nasco US","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"Will be setting a meeting for March 2026."},{"id":"D029","name":"RS Hughes","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D030","name":"Wurth Industry","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"Legal is still reviewing our suggested changes to the NDA and T&C's.  It could take a while"},{"id":"D031","name":"84 LUMBER","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  followed up with Doug on what he owes me."},{"id":"D032","name":"BERKSHIRE E-SUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D033","name":"BLACKHAWK INDUSTRIAL","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25: Initial meeting on 3/26."},{"id":"D034","name":"COLONY HARDWARE","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/26/26:  followed up with Cara from our meeting in February."},{"id":"D035","name":"CONTRACTORS WAREHOUSE","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D036","name":"CORE & MAIN","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D037","name":"DIVAL SAFETY (AD Member)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D038","name":"DIVERSITECH CORPORATION","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D039","name":"FW WEBB COMPANY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"1/20/26: Emailed Kristin McGann, requested meeting"},{"id":"D040","name":"WINSUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D041","name":"SUPPLY HOUSE","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/24/26:  Filled out another online request to be a supplier."},{"id":"D042","name":"GANAHL LUMBER","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D043","name":"HAJOCA'S","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D044","name":"HEYDEN SUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D045","name":"HORIZON DISTRIBUTORS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D046","name":"LAWSON PRODUCTS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D047","name":"LESLIE'S POOL SUPPLIES","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26:  followed up on email"},{"id":"D048","name":"LOGISTICS SUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D049","name":"MAGID SAFETY (AD Member)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D050","name":"MARTIN SUPPLY (AD Member)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D051","name":"DXP ENTERPRISES","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D052","name":"EIS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D053","name":"BORDER STATES","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D054","name":"MCMASTER CARR SUPPLY CO","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D055","name":"GRAYBAR","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D056","name":"DISTRIBUTION NOW - DNOW","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D057","name":"MRC GLOBAL","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D058","name":"NEFCO","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D059","name":"NORTHERN SAFETY & INDUSTRIAL","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D060","name":"PINCH A PENNY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D061","name":"QXO BUILDING PRODUCTS (BEACON ROOFING)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D062","name":"PSS Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"1/21/26: Messaged Mousa on LI"},{"id":"D063","name":"RE MICHEL CO.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D064","name":"TOWN & COUNTRY (ABC SUPPLY)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D065","name":"TVH PARTS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  last outreach"},{"id":"D066","name":"ULINE, INC","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D067","name":"Grainger","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Surpless & Dunn","repName":"Jim Surpless","notes":"2/3/26 Update: 37 new SKUs going live on Grainger.com on 2/10/26"},{"id":"D068","name":"Fastenal","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Surpless","notes":"2/3/26 Update: Supplier investment program in the hands of Category Management.  Presented on 1/26/26.  Will follow up in 2 weeks for answer."},{"id":"D069","name":"PACOA - Wholesale Paint","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Surpless & Dunn","repName":"Kevin Knight","notes":"2/3/26 Update:  I havent seen anything from Justin on 26 Marketing Program and Show in March.  Also, no orders since end of December.  Kevin will follow up with Justin on the program"},{"id":"D070","name":"Surpless & Dunn","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"Jim Surpless","notes":"1st PO received on 1/16/26."},{"id":"D071","name":"Moriarty Machinery","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Colf","notes":"2/3/26 Update:  No update"},{"id":"D072","name":"Suburban Bolt","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Colf","notes":"2/3/26 Update: No Update"},{"id":"D073","name":"Cougar Rental","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Colf","notes":"2/3/26 Update: No Update"},{"id":"D074","name":"Midwest Rental","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Colf","notes":"2/3/26 Update: Shows interest, will see them week of 2/8/26"},{"id":"D075","name":"RS Dale","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Jim Colf","notes":"2/3/26 Update: Shows interest, will see them week of 2/8/26"},{"id":"D076","name":"Farrell Equipment","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"OPEN","notes":"2/3/26 Update: No update"},{"id":"D077","name":"Acme Tools","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"OPEN","notes":"2/3/26 Update: No Update"},{"id":"D078","name":"Stan Houston","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"OPEN","notes":"2/3/26 Update: No Update"},{"id":"D079","name":"Carroll Construction Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Dave Graff","notes":"2/3/26 Update: No Update"},{"id":"D080","name":"O'Leary's Contractor Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Dave Graff","notes":"2/3/26 Update: No Update"},{"id":"D081","name":"Turek & Sons Construction Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Dave Graff","notes":"2/3/26 Update: No Update"},{"id":"D082","name":"Jack's inc.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Dave Graff","notes":"2/3/26 Update: Shows interest, will meet in the next few weeks."},{"id":"D083","name":"Schulte Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Chuck Patton","notes":"2/3/26 Update: Presented to Owner, John.  Seems interested, needs to follow up in late FEB."},{"id":"D084","name":"Campbell Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Chuck Patton","notes":"2/3/26 Update: Presented to Danielson, need to setup a follow meeting in March."},{"id":"D085","name":"OK Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"OPEN","notes":"2/3/26 Update: No Update"},{"id":"D086","name":"Jet Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Rich Fait","notes":"2/3/26 Update: No Update"},{"id":"D087","name":"Midwest Industrial Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Rich Fait","notes":"2/3/26 Update: No Update"},{"id":"D088","name":"Sussex Tool & Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Rich Fait","notes":"2/3/26 Update: No Update"},{"id":"D089","name":"Packer Fastener","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Rich Fait","notes":"2/3/26 Update: No Update"},{"id":"D090","name":"Hahn Systems","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Andy B","notes":"2/3/26 Update: Need to approach with sales teams to generate demand."},{"id":"D091","name":"American Producers","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Andy B","notes":"2/3/26 Update: Reached out to director of purchasing, need to follow up."},{"id":"D092","name":"General Factory Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Surpless & Dunn","repName":"Andy B","notes":"2/3/26 Update: Has a new director of purchasing, need t opresent to sales manager.  Have ecommerce platform, should be a fit."},{"id":"D093","name":"CHADWELL SUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Industrial","region":"National","segment":"B2B/IND","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3/25/26:  Rick responded, they are not adding new suppliers at the moment."},{"id":"D094","name":"Meyer Distributing","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"First stocking PO 1.8.26!"},{"id":"D095","name":"NTP Stag (LKQ Company)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D096","name":"OFF ROAD WAREHOUSE","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D097","name":"SEAWIDE (LKQ Company)","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D098","name":"SUMMIT RACING SUPPLY","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"3.10.26: Brennan Phillips, Merchandise Category Lead.  Responded to Ernesto's email stating they were not interested in adding our product line at this time."},{"id":"D099","name":"NATIONAL OAK DISTRIBUTORS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"Send some samples to the buyer and sent a follow up email requesting a meeting."},{"id":"D100","name":"NATIONAL TOOL WAREHOUSE","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D101","name":"NESTOR SALES","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D102","name":"WORLDPAC","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D103","name":"DURMAN PRODUCTS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D104","name":"FACTORY MOTORPARTS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D105","name":"MATCO TOOLS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D106","name":"Medco (Wholesale Auto)","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Rep Force","repName":"","notes":"Assigned to Repforce.  Need to drive field engagement with their sales teams."},{"id":"D107","name":"AKR Corporation","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D108","name":"Arch Auto Parts","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D109","name":"Auto Parts Headquarters","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D110","name":"B & L Sales","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D111","name":"Baltimore Auto Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D112","name":"Fisher Auto Parts","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D113","name":"C & L Tool Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D114","name":"Hahn Automotive Warehouse Inc.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D115","name":"ADI","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D116","name":"Highline Aftermarket","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D117","name":"J. Polep Dist.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D118","name":"Kleen Rite Corp","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D119","name":"Lalena, R R, Corp.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D120","name":"Midstate Tool and Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D121","name":"Hovis Auto and Truck Supply","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D122","name":"Keystone Automotive Operations Inc","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D123","name":"Parts Authority","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D124","name":"Factory Motor Parts","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D125","name":"Speedway Motors","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D126","name":"Price Master Corporation","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D127","name":"R&R Wholesale","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D128","name":"Delco Line","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D129","name":"Wurth Usa, Inc.","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Rep Force","repName":"","notes":""},{"id":"D130","name":"Meyer Distributing","erp":"","status":"Prospect","stage":"customer","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"Auto Care Products presented to Merchant by Bill and Greg"},{"id":"D131","name":"Federated Co Op","erp":"","status":"Prospect","stage":"canadian Customer","tier":"Prospect","territory":"Automotive","region":"National","segment":"B2B/AUTO","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Grant Brothers","repName":"","notes":"Auto Care Products presented to Mikael and Jeremy- to follow up with GB"},{"id":"D132","name":"Fastenal Canada","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"Setup with Supplier #, now it is about field engagement and demand generation."},{"id":"D133","name":"Hansler-Smith","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"First PO in November."},{"id":"D134","name":"Vieira Concrete Supplies","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"1/23/26: New franchise in Kitchener, ON"},{"id":"D135","name":"H&S Building Supply","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"5 orders so far, products are moving well."},{"id":"D136","name":"Frontier Auto & Industrial","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Excalibur","repName":"","notes":""},{"id":"D137","name":"Canex Building Supplies","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Excalibur","repName":"","notes":""},{"id":"D138","name":"HD Supply Canada","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"","repName":"","notes":"2/13/26:  March 1 program launch.  Two stock PO's came week of 2/9/26"},{"id":"D139","name":"Ideal Supply","erp":"","status":"Active","stage":"Demand Creation & Field Engagement","tier":"Tier 2 - Growth","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":72,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"Yes","assignedRep":"Grant Bros.","repName":"","notes":"3.10.26 - first PO of $20,640 received."},{"id":"D140","name":"Grainger Canada","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"Yes","stocking":"No","assignedRep":"","repName":"","notes":"1/23/26 Update: No update from Zach.  He is trying to get with Derek on another line as well."},{"id":"D141","name":"ORS Nasco Canada","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"No","assignedRep":"MSI Reps","repName":"","notes":"2/13/26:  Waiting on Travis to process new supplier documents"},{"id":"D142","name":"Staples Canada","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"No","assignedRep":"MSI Reps","repName":"","notes":"1/23/26 Update: No update from Jim."},{"id":"D143","name":"Labar Supply","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"Yes","assignedRep":"","repName":"","notes":"1/23/26 Update: Zach going to meet with him 1st week of February."},{"id":"D144","name":"GLOBAL INDUSTRIAL - CANADA","erp":"","status":"Active","stage":"Supplier Onboarding","tier":"Tier 3 - Emerging","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":58,"health":"Healthy","nextReview":"","acctSetup":"In-Process","stocking":"No","assignedRep":"","repName":"","notes":"2/4/26:  Submitted all needed supplier onboarding docs."},{"id":"D145","name":"TOOLWAY INDUSTRIES","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"1/23/26 Update: Still pushing but seems dead in the water"},{"id":"D146","name":"Mississauga Hardware","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"1/23/26 Update:  Still interested, but needs some more time."},{"id":"D147","name":"White Cap Canada","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D148","name":"GREGG DISTRIBUTORS","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"West","repName":"","notes":""},{"id":"D149","name":"MOTION CANADA","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D150","name":"VALLEN CN","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":""},{"id":"D151","name":"WOLSELEY CANADA","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"","repName":"","notes":"2/17/26 last outreach"},{"id":"D152","name":"Greggs Distributors","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D153","name":"The Fastener Group","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D154","name":"Bolts Supply House","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D155","name":"MMK Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D156","name":"Cross Country Canada","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D157","name":"MAS-PRO","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D158","name":"Quest Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D159","name":"Tasco Supplies","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D160","name":"Abbotsford Tool Centre","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D161","name":"Motion Industries","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D162","name":"LGI Industrial","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D163","name":"Regina Fasteners & Tools","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D164","name":"Applied Industrial Tech","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D165","name":"Mid-Canada Fasteners","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."},{"id":"D166","name":"Grand West","erp":"","status":"Prospect","stage":"Prospect","tier":"Prospect","territory":"International","region":"National","segment":"B2B-INTL","role":"Primary Distributor","cls":"National","pricing":"B","coop":false,"lines":"","revYTD":0,"revPrior":0,"skus":0,"lastOrder":"","lastVisit":"","lastTrain":"","sow":0,"score":35,"health":"At Risk","nextReview":"","acctSetup":"No","stocking":"No","assignedRep":"Excalibur","repName":"","notes":"3.12.26: Excalibur started working."}]
+</script>
+
+<script type="text/javascript">
+(function() {
+"use strict";
+
+// ── DATA ──────────────────────────────────────────────────────────────────
+var SEED = JSON.parse(document.getElementById('sd').textContent);
+var SK = 'swiftcrm_v4';
+function loadDB() { try { var r = localStorage.getItem(SK); if (r) return JSON.parse(r); } catch(x) {} return null; }
+function saveDB() { try { localStorage.setItem(SK, JSON.stringify(db)); } catch(x) {} }
+function initDB() {
+  return { distributors: SEED.map(function(d){ return JSON.parse(JSON.stringify(d)); }),
+           visits: [], contacts: [], nxt: {V:1,C:1,D:SEED.length+1} };
+}
+var db = loadDB() || initDB();
+if (!db.distributors || db.distributors.length === 0) { db = initDB(); }
+
+// ── HELPERS ───────────────────────────────────────────────────────────────
+function gi(id) { return document.getElementById(id); }
+function e(s) { // HTML escape
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function tv(id) { var el = gi(id); return el ? el.value : ''; }
+
+function stageC(s) {
+  if (!s) return 'bgr';
+  if (s === 'Demand Creation & Field Engagement' || s === 'customer' || s === 'canadian Customer') return 'bg';
+  if (s === 'Supplier Onboarding') return 'bb';
+  return 'bgr';
+}
+function stageL(s) {
+  var m = {'Demand Creation & Field Engagement':'Active','Supplier Onboarding':'Onboarding','Prospect':'Prospect','customer':'Active','canadian Customer':'Active'};
+  return m[s] || s || '—';
+}
+function segB(s) {
+  var m = {'B2B/IND':'bb','B2B/AUTO':'ba','B2B-INTL':'bpu','B2B/BLM':'bor'};
+  return '<span class="badge ' + (m[s]||'bgr') + '">' + e(s) + '</span>';
+}
+function hcol(n) { return n >= 70 ? 'var(--grn)' : n >= 45 ? 'var(--yel)' : 'var(--red)'; }
+
+function toast(msg, t) {
+  var el = gi('toast');
+  el.textContent = (t === 'success' ? '✓ ' : t === 'error' ? '✗ ' : 'ℹ ') + msg;
+  el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2600);
+}
+
+// ── NAVIGATION ────────────────────────────────────────────────────────────
+var pg = 'dashboard';
+function go(p) {
+  pg = p;
+  var base = p.split('-')[0];
+  document.querySelectorAll('.ni').forEach(function(n){ n.classList.toggle('active', n.dataset.p === base); });
+  var titles = {dashboard:'Dashboard',pipeline:'All Distributors',ind:'Industrial Pipeline',
+    auto:'Automotive Pipeline',intl:'International B2B Pipeline',blm:'B2B/BLM Pipeline',visits:'Sales Calls',tasks:'Tasks List',opps:'Opportunities',reports:'Reports'};
+  gi('pt').textContent = titles[base] || p;
+  gi('ta').innerHTML = '';
+  var c = gi('ct');
+  if (p === 'dashboard')      { rDash(c); }
+  else if (p === 'pipeline')  { rDists(c, ''); }
+  else if (p === 'ind')       { rDists(c, 'B2B/IND'); }
+  else if (p === 'auto')      { rDists(c, 'B2B/AUTO'); }
+  else if (p === 'intl')      { rDists(c, 'B2B-INTL'); }
+  else if (p === 'blm')       { rDists(c, 'B2B/BLM'); }
+  else if (p.indexOf('dist-') === 0) { rDistD(c, p.slice(5)); }
+  else if (p.indexOf('rep-') === 0)  { rRepDash(c, decodeURIComponent(p.slice(4))); }
+  else if (p.indexOf('stagefilt-') === 0) { rStageFilt(c, decodeURIComponent(p.slice(10))); }
+  else if (p === 'visits')    { rVisits(c); }
+  else if (p === 'tasks')     { rTasks(c); }
+  else if (p === 'opps')      { rOpps(c); }
+  else if (p === 'reports')   { rReps(c); }
+}
+
+// ── DELEGATED CLICK HANDLER ───────────────────────────────────────────────
+// ALL navigation from dynamically built HTML goes through data-go attributes.
+// No inline onclick with dynamic ids.
+function attachDelegation(root) {
+  root.addEventListener('click', function(ev) {
+    var el = ev.target;
+    while (el && el !== root) {
+      var g = el.dataset.go;
+      var a = el.dataset.act;
+      if (g) { go(g); return; }
+      if (a) { handleAction(a, el.dataset); return; }
+      el = el.parentElement;
+    }
+  });
+}
+function handleAction(act, ds) {
+  if (act === 'newDist')    { mDist(null); }
+  else if (act === 'editDist')   { mDist(ds.id); }
+  else if (act === 'newVisit')   { mVisit(ds.did || null); }
+  else if (act === 'newContact') { mContact(ds.did || null); }
+  else if (act === 'exportCsv')  { xcsv(ds.seg || ''); }
+  else if (act === 'sortDists')  { sortD(ds.key); }
+  else if (act === 'swTab')      { swTab(ds.tab, ds.group); }
+  else if (act === 'swRTab')     { swRTab(ds.tab); }
+}
+
+// ── DASHBOARD ─────────────────────────────────────────────────────────────
+function rDash(c) {
+  var D = db.distributors;
+  var active = D.filter(function(d){ return d.stage==='Demand Creation & Field Engagement'||d.stage==='customer'||d.stage==='canadian Customer'; });
+  var onb    = D.filter(function(d){ return d.stage==='Supplier Onboarding'; });
+  var pros   = D.filter(function(d){ return d.stage==='Prospect'; });
+
+  var bySeg = {'B2B/IND':0,'B2B/AUTO':0,'B2B-INTL':0,'B2B/BLM':0};
+  D.forEach(function(d){ bySeg[d.segment] = (bySeg[d.segment]||0)+1; });
+
+  var stages = ['Prospect','Supplier Onboarding','Demand Creation & Field Engagement'];
+  var sVals  = stages.map(function(s){ return D.filter(function(d){ return d.stage===s||(s==='Demand Creation & Field Engagement'&&(d.stage==='customer'||d.stage==='canadian Customer')); }).length; });
+  var maxSV  = Math.max.apply(null, sVals.concat([1]));
+  var sCols  = ['rgba(255,255,255,0.15)','var(--blu)','var(--grn)'];
+
+  var stk = {'Yes':0,'No':0,'In-Process':0};
+  D.forEach(function(d){ var k=d.stocking||'No'; stk[k]=(stk[k]||0)+1; });
+  var stkCol = {'Yes':'var(--grn)','In-Process':'var(--yel)','No':'rgba(255,255,255,0.12)'};
+
+  var byRep = {};
+  D.forEach(function(d){ var r=d.assignedRep||'Unassigned'; byRep[r]=(byRep[r]||0)+1; });
+
+  var stageHTML = stages.map(function(s,i){
+    var cnt=sVals[i];
+    var stageParam = s==='Demand Creation & Field Engagement'?'active':s==='Supplier Onboarding'?'Supplier+Onboarding':'Prospect';
+    return '<div data-go="stagefilt-'+e(stageParam)+'" style="margin-bottom:11px;cursor:pointer" title="View '+e(stageL(s))+' distributors">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px">'+
+      '<span style="font-size:12px;color:var(--txt2)">'+e(stageL(s))+'</span>'+
+      '<span class="tm" style="color:var(--blul)">'+cnt+'</span>'+
+      '</div>'+
+      '<div style="height:7px;background:rgba(255,255,255,0.05);border-radius:4px">'+
+      '<div style="height:100%;width:'+Math.round(cnt/maxSV*100)+'%;background:'+sCols[i]+';border-radius:4px"></div>'+
+      '</div></div>';
+  }).join('');
+
+  var stkHTML = Object.keys(stk).map(function(k){
+    var v=stk[k];
+    return '<div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12px;color:var(--txt2)">Stocking: '+e(k)+'</span><span class="tm">'+v+' ('+Math.round(v/D.length*100)+'%)</span></div><div style="height:6px;background:rgba(255,255,255,0.05);border-radius:3px"><div style="height:100%;width:'+Math.round(v/D.length*100)+'%;background:'+stkCol[k]+';border-radius:3px"></div></div></div>';
+  }).join('');
+
+  var repSortKey = 'count', repSortDir = -1; // default: most accounts first
+
+  function buildRepRows() {
+    var keys = Object.keys(byRep).slice(0,8);
+    keys.sort(function(a,b){
+      if (repSortKey === 'name') return a.localeCompare(b) * repSortDir;
+      return (byRep[b] - byRep[a]) * repSortDir;
+    });
+    return keys.map(function(r){
+      return '<tr style="cursor:pointer" data-go="rep-'+e(encodeURIComponent(r))+'"><td style="color:var(--blul);font-weight:500">'+e(r)+'</td><td class="tm am">'+byRep[r]+'</td></tr>';
+    }).join('');
+  }
+
+  function buildRepHead() {
+    var repActive = repSortKey === 'name';
+    var cntActive = repSortKey === 'count';
+    var repArrow = repActive ? (repSortDir===1?' ▲':' ▼') : ' ⇅';
+    var cntArrow = cntActive ? (repSortDir===1?' ▲':' ▼') : ' ⇅';
+    return '<th data-rep-sort="name" style="cursor:pointer;user-select:none;'+(repActive?'color:var(--blul)':'')+'">Rep<span style="font-size:9px;color:'+(repActive?'var(--blul)':'var(--txt3)')+'">'+repArrow+'</span></th>'+
+           '<th data-rep-sort="count" style="cursor:pointer;user-select:none;'+(cntActive?'color:var(--blul)':'')+'">Accts<span style="font-size:9px;color:'+(cntActive?'var(--blul)':'var(--txt3)')+'">'+cntArrow+'</span></th>';
+  }
+
+  var repRows = buildRepRows();
+
+  var segHTML = Object.keys(bySeg).map(function(s){
+    var dest = s==='B2B/IND'?'ind':s==='B2B/AUTO'?'auto':'intl';
+    return '<div data-go="'+e(dest)+'" style="flex:1;min-width:80px;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:6px;text-align:center;cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor=\'var(--blu)\'" onmouseout="this.style.borderColor=\'var(--bdr)\'"><div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:3px">'+e(s)+'</div><div style="font-family:var(--disp);font-size:22px;font-weight:700;color:var(--blul)">'+bySeg[s]+'</div></div>';
+  }).join('');
+
+  var activeRows = active.slice(0,12).map(function(d){
+    return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer"><td class="tl">'+e(d.name)+'</td><td>'+segB(d.segment)+'</td><td><span class="badge bg" style="font-size:10px">Active</span></td><td><span class="badge '+(d.acctSetup==='Yes'?'bg':'br')+'" style="font-size:10px">'+e(d.acctSetup||'No')+'</span></td><td><span class="badge '+(d.stocking==='Yes'?'bg':d.stocking==='In-Process'?'by':'bgr')+'" style="font-size:10px">'+e(d.stocking||'No')+'</span></td><td class="td">'+e(d.assignedRep||'—')+'</td><td class="td" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e(d.notes||'—')+'</td></tr>';
+  }).join('');
+
+  var visitHTML = db.visits.length === 0
+    ? '<div class="emp"><div class="ei">&#128221;</div><p style="font-size:12px">No sales calls yet. <span class="tl" data-act="newVisit">Log your first &#8594;</span></p></div>'
+    : db.visits.slice().sort(function(a,b){ return b.date.localeCompare(a.date); }).slice(0,5).map(function(v){
+        return '<div class="vc '+(v.outcome==='Opportunity Created'?'opp':v.outcome==='Training Delivered'?'train':v.outcome==='Issue Escalated'?'esc':'')+'"><div style="display:flex;justify-content:space-between"><span class="tl" data-go="dist-'+e(v.did)+'">'+e(v.distName||'—')+'</span><span class="td tm">'+e(v.date)+'</span></div><div style="font-size:12px;color:var(--txt2);margin-top:4px">'+e((v.notes||'').substring(0,100))+'</div></div>';
+      }).join('');
+
+  // Open tasks — sortable, default: most overdue first
+  var todayOT = new Date(); todayOT.setHours(0,0,0,0);
+  var dashOTSort = {k:'nsd', d:1}; // will be set by sort state below
+
+  function sortedOTRows(tasks, sk, sd) {
+    return tasks.slice().sort(function(a,b){
+      if (sk === 'nsd') {
+        // Most overdue first by default: no date goes last, overdue sorted desc by days
+        var da = a.nsd || '9999-99-99';
+        var db2 = b.nsd || '9999-99-99';
+        return da.localeCompare(db2) * sd;
+      }
+      var va = (a[sk]||'').toString().toLowerCase();
+      var vb = (b[sk]||'').toString().toLowerCase();
+      if (!va && !vb) return 0;
+      if (!va) return 1; if (!vb) return -1;
+      return va.localeCompare(vb) * sd;
+    });
+  }
+
+  var openTasks = db.visits.filter(function(v){
+    return !v.taskCompleted && (v.ns || v.actionItems);
+  });
+
+  // Default: soonest/most-overdue first (ascending nsd — earliest date = most overdue)
+  var otSk = 'nsd', otSd = 1;
+
+  function mkDashOTTh(label, key) {
+    var active = otSk === key;
+    var arrow = active ? (otSd === 1 ? ' ▲' : ' ▼') : ' ⇅';
+    var col = active ? 'color:var(--blul);' : '';
+    return '<th data-act="sortDashOT" data-key="'+key+'" style="cursor:pointer;user-select:none;'+col+'">'+label+'<span style="font-size:9px;color:'+(active?'var(--blul)':'var(--txt3)')+'">'+arrow+'</span></th>';
+  }
+
+  function buildOTRows(tasks) {
+    var sorted = sortedOTRows(tasks, otSk, otSd);
+    return sorted.map(function(v){
+      var daysOver = v.nsd ? Math.floor((todayOT - new Date(v.nsd)) / 86400000) : -999;
+      var slightOver = v.nsd && daysOver >= 0 && daysOver <= 10;
+      var veryOver   = v.nsd && daysOver > 10;
+      var upcoming   = v.nsd && daysOver < 0;
+      var dcol = veryOver ? 'var(--red)' : slightOver ? 'var(--yel)' : upcoming ? 'var(--grn)' : 'var(--txt3)';
+      var dateLabel = !v.nsd ? '<span style="color:var(--txt3)">—</span>'
+        : (veryOver||slightOver) ? '<span style="color:'+dcol+';font-weight:500">'+e(v.nsd)+'<br><span style="font-size:9px;font-family:var(--mono)">'+daysOver+'d OVERDUE</span></span>'
+        : '<span style="color:'+dcol+'">'+e(v.nsd)+'</span>';
+      return '<tr data-go="dist-'+e(v.did)+'" style="cursor:pointer">'+
+        '<td class="tl">'+e(v.distName||'—')+'</td>'+
+        '<td>'+(v.ns?'<span class="badge bb" style="font-size:10px">'+e(v.ns)+'</span>':'<span style="color:var(--txt3)">—</span>')+'</td>'+
+        '<td style="font-size:12px">'+dateLabel+'</td>'+
+        '<td style="font-size:12px;color:var(--txt2);max-width:220px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">'+e(v.actionItems||'—')+'</div></td>'+
+        '</tr>';
+    }).join('');
+  }
+
+  var openTasksHTML = openTasks.length === 0
+    ? '<div class="emp" style="padding:18px"><div class="ei" style="font-size:20px">&#9989;</div><p style="font-size:12px;color:var(--txt3)">No open tasks — all caught up!</p></div>'
+    : '<div class="tw"><table id="dash-ot-tbl"><thead><tr id="dash-ot-head"></tr></thead><tbody id="dash-ot-body"></tbody></table></div>';
+
+  // Active distributors — sortable
+  var actSk = 'name', actSd = 1;
+
+  function mkDashActTh(label, key) {
+    var active = actSk === key;
+    var arrow = active ? (actSd === 1 ? ' ▲' : ' ▼') : ' ⇅';
+    var col = active ? 'color:var(--blul);' : '';
+    return '<th data-act="sortDashAct" data-key="'+key+'" style="cursor:pointer;user-select:none;'+col+'">'+label+'<span style="font-size:9px;color:'+(active?'var(--blul)':'var(--txt3)')+'">'+arrow+'</span></th>';
+  }
+
+  function buildActRows(dists) {
+    var sorted = dists.slice().sort(function(a,b){
+      var va=(a[actSk]||'').toString().toLowerCase(), vb=(b[actSk]||'').toString().toLowerCase();
+      if(!va&&!vb)return 0; if(!va)return 1; if(!vb)return -1;
+      return va.localeCompare(vb)*actSd;
+    });
+    return sorted.map(function(d){
+      return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer"><td class="tl">'+e(d.name)+'</td><td>'+segB(d.segment)+'</td><td><span class="badge bg" style="font-size:10px">Active</span></td><td><span class="badge '+(d.acctSetup==='Yes'?'bg':'br')+'" style="font-size:10px">'+e(d.acctSetup||'No')+'</span></td><td><span class="badge '+(d.stocking==='Yes'?'bg':d.stocking==='In-Process'?'by':'bgr')+'" style="font-size:10px">'+e(d.stocking||'No')+'</span></td><td class="td">'+e(d.assignedRep||'—')+'</td><td class="td" style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e(d.notes||'—')+'</td></tr>';
+    }).join('');
+  }
+
+  var activeRowsHTML = '<div class="tw"><table id="dash-act-tbl"><thead><tr id="dash-act-head"></tr></thead><tbody id="dash-act-body"></tbody></table></div>';
+
+  c.innerHTML =
+    '<div class="g4 sep">'+
+    '<div class="stat" data-go="pipeline" style="cursor:pointer" title="View all distributors"><div class="sl">Total</div><div class="sv" style="color:var(--blul)">'+D.length+'</div><div class="ss">'+active.length+' active &middot; '+onb.length+' onboarding</div></div>'+
+    '<div class="stat" data-go="stagefilt-active" style="cursor:pointer" title="View active distributors"><div class="sl">Active (Demand Gen)</div><div class="sv up">'+active.length+'</div><div class="ss">'+D.filter(function(d){return d.stocking==='Yes'&&(d.stage==='Demand Creation & Field Engagement'||d.stage==='customer'||d.stage==='canadian Customer');}).length+' with stocking</div></div>'+
+    '<div class="stat" data-go="stagefilt-Supplier+Onboarding" style="cursor:pointer" title="View onboarding distributors"><div class="sl">Supplier Onboarding</div><div class="sv am">'+onb.length+'</div><div class="ss">In setup</div></div>'+
+    '<div class="stat" data-go="stagefilt-Prospect" style="cursor:pointer" title="View prospects"><div class="sl">Prospects</div><div class="sv" style="color:var(--blul)">'+pros.length+'</div><div class="ss">Not yet onboarded</div></div>'+
+    '</div>'+
+    '<div class="g2 sep">'+
+      '<div class="card"><div class="chd">Pipeline by Stage</div>'+stageHTML+'<div class="dv"></div><div class="chd">By Segment</div><div style="display:flex;gap:10px;flex-wrap:wrap">'+segHTML+'</div></div>'+
+      '<div class="card"><div class="chd">Stocking Status</div>'+stkHTML+'<div class="dv"></div><div class="chd">Rep Agency Coverage</div><div class="tw"><table id="rep-cov-tbl" style="font-size:12px"><thead><tr id="rep-cov-head">'+buildRepHead()+'</tr></thead><tbody id="rep-cov-body">'+repRows+'</tbody></table></div></div>'+
+    '</div>'+
+    '<div class="card sep"><div class="sh"><div class="stl">Active Distributors</div><button class="btn bg_ bxs" data-go="pipeline">View all &#8594;</button></div>'+activeRowsHTML+'</div>'+
+    '<div class="card sep"><div class="sh"><div class="stl">Open Tasks</div><button class="btn bg_ bxs" data-go="tasks">View all &#8594;</button></div>'+openTasksHTML+'</div>'+
+    '<div class="card"><div class="sh"><div class="stl">Recent Sales Calls</div><button class="btn bg_ bxs" data-go="visits">View all &#8594;</button></div>'+visitHTML+'</div>';
+
+  // Render headers and rows after DOM is ready
+  function refreshDashActTable() {
+    var head = gi('dash-act-head');
+    var body = gi('dash-act-body');
+    if (!head || !body) return;
+    head.innerHTML =
+      mkDashActTh('Distributor','name')+
+      mkDashActTh('Segment','segment')+
+      mkDashActTh('Stage','stage')+
+      mkDashActTh('Acct Setup','acctSetup')+
+      mkDashActTh('Stocking','stocking')+
+      mkDashActTh('Rep','assignedRep')+
+      '<th>Notes</th>';
+    body.innerHTML = buildActRows(active.slice(0,12));
+  }
+
+  function refreshDashOTTable() {
+    var head = gi('dash-ot-head');
+    var body = gi('dash-ot-body');
+    if (!head || !body) return;
+    head.innerHTML =
+      mkDashOTTh('Customer','distName')+
+      mkDashOTTh('Next Step','ns')+
+      mkDashOTTh('Due Date','nsd')+
+      mkDashOTTh('Action Items','actionItems');
+    body.innerHTML = buildOTRows(openTasks);
+  }
+
+  refreshDashActTable();
+  refreshDashOTTable();
+
+  // Attach sort delegation to content area for dashboard tables
+  var ctEl = gi('ct');
+  ctEl.addEventListener('click', function dashSortHandler(ev) {
+    var el = ev.target.closest('th[data-act]');
+    var elRep = ev.target.closest('th[data-rep-sort]');
+    if (elRep) {
+      var key = elRep.dataset.repSort;
+      repSortDir = repSortKey === key ? -repSortDir : -1;
+      repSortKey = key;
+      var head = gi('rep-cov-head'); var body = gi('rep-cov-body');
+      if (head) head.innerHTML = buildRepHead();
+      if (body) body.innerHTML = buildRepRows();
+      return;
+    }
+    if (!el) return;
+    var act = el.dataset.act;
+    var key = el.dataset.key;
+    if (act === 'sortDashAct') {
+      actSd = actSk === key ? -actSd : 1;
+      actSk = key;
+      refreshDashActTable();
+    } else if (act === 'sortDashOT') {
+      otSd = otSk === key ? -otSd : 1;
+      otSk = key;
+      refreshDashOTTable();
+    }
+  });
+}
+
+// ── DISTRIBUTOR LIST ──────────────────────────────────────────────────────
+var dSrt = {k:'name', d:1};
+function sortD(k) {
+  dSrt.d = dSrt.k===k ? -dSrt.d : 1;
+  dSrt.k = k;
+  var s = pg==='ind'?'B2B/IND':pg==='auto'?'B2B/AUTO':pg==='intl'?'B2B-INTL':pg==='blm'?'B2B/BLM':'';
+  fDists(s);
+  // Update header arrows
+  document.querySelectorAll('th[data-act="sortDists"]').forEach(function(th){
+    var arrow = th.querySelector('.sort-arrow');
+    if (!arrow) return;
+    if (th.dataset.key === dSrt.k) {
+      arrow.textContent = dSrt.d === 1 ? ' ▲' : ' ▼';
+      arrow.style.color = 'var(--blul)';
+      th.style.color = 'var(--blul)';
+    } else {
+      arrow.textContent = ' ⇅';
+      arrow.style.color = 'var(--txt3)';
+      th.style.color = '';
+    }
+  });
+}
+
+function mkTh(label, key, minWidth) {
+  var active = dSrt.k === key;
+  var arrow  = active ? (dSrt.d === 1 ? ' ▲' : ' ▼') : ' ⇅';
+  var col    = active ? 'var(--blul)' : 'var(--txt3)';
+  var style  = (minWidth ? 'min-width:'+minWidth+';' : '') + (active ? 'color:var(--blul);' : '');
+  return '<th data-act="sortDists" data-key="'+key+'" style="'+style+'cursor:pointer;user-select:none">'+
+    label+'<span class="sort-arrow" style="color:'+col+';font-size:9px">'+arrow+'</span></th>';
+}
+
+function rDists(c, seg) {
+  var reps = Array.from(new Set(db.distributors.map(function(d){return d.assignedRep;}).filter(function(r){return r&&r!=='None';}))).sort();
+  gi('ta').innerHTML =
+    '<button class="btn bp bsm" data-act="newDist">+ New Distributor</button>'+
+    '<button class="btn bg_ bsm" data-act="exportCsv" data-seg="'+e(seg)+'">&#8595; Export CSV</button>';
+
+  c.innerHTML =
+    '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'+
+    '<input class="sinp" id="ds" placeholder="Search..." style="flex:1;min-width:160px">'+
+    '<select class="fsel" id="dstage"><option value="">All Stages</option><option value="active">Active</option><option value="Supplier Onboarding">Onboarding</option><option value="Prospect">Prospect</option></select>'+
+    '<select class="fsel" id="dstock"><option value="">All Types</option><option value="Stocking Distributor">Stocking Distributor</option><option value="Dropship Only">Dropship Only</option><option value="Stocking &amp; Dropship">Stocking &amp; Dropship</option><option value="Prospect">Prospect</option></select>'+
+    '<select class="fsel" id="drep"><option value="">All Reps</option>'+reps.map(function(r){return '<option value="'+e(r)+'">'+e(r)+'</option>';}).join('')+'</select>'+
+    '</div>'+
+    '<div class="card" style="padding:0;overflow:hidden"><div class="tw"><table>'+
+    '<thead><tr>'+
+    mkTh('Distributor','name','160px')+
+    (seg ? '' : mkTh('Segment','segment'))+
+    mkTh('Stage','stage')+
+    mkTh('Acct Setup','acctSetup')+
+    mkTh('Customer # in BC','erp')+
+    mkTh('Distributor Type','distType')+
+    mkTh('Assigned Rep','assignedRep')+
+    mkTh('Last Sales Call','lastVisit')+
+    mkTh('Customer # in BC','erp')+
+    '<th style="white-space:nowrap;color:var(--txt3)">Open Task Due Date</th>'+
+    '</tr></thead>'+
+    '<tbody id="dtb"></tbody></table></div></div>';
+
+  gi('ds').addEventListener('input', function(){ fDists(seg); });
+  gi('dstage').addEventListener('change', function(){ fDists(seg); });
+  gi('dstock').addEventListener('change', function(){ fDists(seg); });
+  gi('drep').addEventListener('change', function(){ fDists(seg); });
+
+  fDists(seg);
+}
+
+function fDists(seg) {
+  var q  = (tv('ds')||'').toLowerCase();
+  var st = tv('dstage');
+  var sk = tv('dstock');
+  var rp = tv('drep');
+
+  var rows = db.distributors.filter(function(d){
+    var isActive = d.stage==='Demand Creation & Field Engagement'||d.stage==='customer'||d.stage==='canadian Customer';
+    return (!seg || d.segment===seg) &&
+      (!q  || d.name.toLowerCase().indexOf(q)>=0 || (d.assignedRep||'').toLowerCase().indexOf(q)>=0 || (d.repName||'').toLowerCase().indexOf(q)>=0) &&
+      (!st || (st==='active' ? isActive : d.stage===st)) &&
+      (!sk || d.distType===sk) &&
+      (!rp || d.assignedRep===rp);
+  });
+
+  rows.sort(function(a,b){ var va=a[dSrt.k]||'', vb=b[dSrt.k]||''; return typeof va==='string' ? va.localeCompare(vb)*dSrt.d : (va-vb)*dSrt.d; });
+
+  var showSeg = !seg;
+  var today = new Date(); today.setHours(0,0,0,0);
+  var tb = gi('dtb'); if (!tb) return;
+  tb.innerHTML = rows.map(function(d){
+    var openTask = db.visits.filter(function(v){
+      return v.did === d.id && !v.taskCompleted && (v.ns || v.actionItems);
+    }).sort(function(a,b){
+      return (a.nsd||'9999').localeCompare(b.nsd||'9999');
+    })[0];
+    var taskCell;
+    if (!openTask) {
+      taskCell = '<td style="font-size:11px;color:var(--txt3)">—</td>';
+      var rowBg = '';
+    } else {
+      var daysOver = openTask.nsd ? Math.floor((today - new Date(openTask.nsd)) / 86400000) : -1;
+      var upcoming  = openTask.nsd && daysOver < 0;
+      var slightOver = openTask.nsd && daysOver >= 0 && daysOver <= 10;
+      var veryOver   = openTask.nsd && daysOver > 10;
+      var rowBg = veryOver   ? 'background:rgba(240,82,82,0.07);'
+                : slightOver ? 'background:rgba(245,197,66,0.07);'
+                : '';
+      var tcol = veryOver ? 'var(--red)' : slightOver ? 'var(--yel)' : upcoming ? 'var(--grn)' : 'var(--txt2)';
+      var label = !openTask.nsd
+        ? '<span style="font-size:10px;color:var(--txt2)">No date</span>'
+        : (veryOver || slightOver)
+          ? openTask.nsd+'<br><span style="font-size:9px;font-family:var(--mono)">'+daysOver+'d OVERDUE</span>'
+          : openTask.nsd;
+      taskCell = '<td style="font-size:11.5px;color:'+tcol+';line-height:1.4">'+label+'</td>';
+    }
+    return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer;'+(rowBg||'')+'">'+
+      '<td class="tl">'+e(d.name)+'</td>'+
+      (showSeg ? '<td>'+segB(d.segment)+'</td>' : '')+
+      '<td><span class="badge '+stageC(d.stage)+'" style="font-size:10px">'+e(stageL(d.stage))+'</span></td>'+
+      '<td><span class="badge '+(d.acctSetup==='Yes'?'bg':d.acctSetup==='In-Process'?'by':'br')+'" style="font-size:10px">'+e(d.acctSetup||'No')+'</span></td>'+
+      '<td class="td tm" style="font-size:12px">'+e(d.erp||'—')+'</td>'+
+      '<td class="td" style="font-size:12px">'+e(d.distType||'—')+'</td>'+
+      '<td class="td" style="font-size:12px">'+e(d.assignedRep||'—')+'</td>'+
+      (function(){
+        var dy = d.lastVisit ? Math.floor((Date.now()-new Date(d.lastVisit).getTime())/86400000) : 999;
+        var col = dy > 60 ? 'var(--red)' : dy > 30 ? 'var(--yel)' : dy < 999 ? 'var(--grn)' : 'var(--txt3)';
+        return '<td style="font-size:12px;color:'+col+'">'+e(d.lastVisit||'—')+'</td>';
+      })()+
+      taskCell+
+      '</tr>';
+  }).join('') || '<tr><td colspan="10" style="text-align:center;color:var(--txt3);padding:24px">No results</td></tr>';
+}
+
+// ── DISTRIBUTOR DETAIL ────────────────────────────────────────────────────
+function rDistD(c, id) {
+  var d = db.distributors.find(function(x){ return x.id===id; });
+  if (!d) { c.innerHTML='<p>Not found</p>'; return; }
+  var visits   = db.visits.filter(function(v){ return v.did===id; }).sort(function(a,b){ return b.date.localeCompare(a.date); });
+  var contacts = db.contacts.filter(function(co){ return co.did===id; });
+  var accNotes = (db.accountNotes || []).filter(function(n){ return n.did===id; }).sort(function(a,b){ return b.ts.localeCompare(a.ts); });
+  var backPg   = d.segment==='B2B/IND'?'ind':d.segment==='B2B/AUTO'?'auto':d.segment==='B2B/BLM'?'blm':'intl';
+
+  gi('ta').innerHTML =
+    '<button class="btn bg_ bxs" data-go="'+e(backPg)+'">&#8592; Back</button>'+
+    '<button class="btn bp bxs" data-act="editDist" data-id="'+e(id)+'">Edit</button>'+
+    '<button class="btn bg_ bxs" data-act="newVisit" data-did="'+e(id)+'">+ Log Sales Call</button>';
+  gi('pt').textContent = d.name;
+
+  var detRows = [['BC Customer #',d.erp],['Stage',d.stage],['Segment',d.segment],['Acct Setup',d.acctSetup],
+    ['Stocking',d.stocking],['Assigned Rep',d.assignedRep],['Rep Name',d.repName],
+    ['Rev YTD',d.revYTD?'$'+d.revYTD.toLocaleString():null],
+    ['Last Order',d.lastOrder],['Last Sales Call',d.lastVisit],['Next Review',d.nextReview]
+  ].map(function(r){ return '<div><div style="font-size:9.5px;color:var(--txt3);font-family:var(--mono);margin-bottom:2px">'+e(r[0])+'</div><div style="font-size:12.5px">'+e(r[1]||'—')+'</div></div>'; }).join('');
+
+  var coHTML = contacts.length
+    ? contacts.map(function(co){ return '<div style="padding:6px 0;border-bottom:1px solid var(--bdr)"><div style="font-size:12.5px;font-weight:500">'+e(co.fn)+' '+e(co.ln)+'</div><div class="td">'+e(co.role)+' &middot; '+e(co.email||'—')+'</div></div>'; }).join('')
+    : '<div class="td" style="padding:8px 0">No contacts yet.</div>';
+
+  var sc = 2*Math.PI*28;
+  var r = d.score||30;
+  var dash = (r/100)*sc;
+
+  var visHTML = visits.length
+    ? visits.map(function(v){
+        return '<div class="vc '+(v.outcome==='Opportunity Created'?'opp':v.outcome==='Training Delivered'?'train':v.outcome==='Issue Escalated'?'esc':'')+'">'+
+          '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:flex-start">'+
+          '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="pill">'+e(v.type)+'</span><span class="badge bgr" style="font-size:10px">'+e(v.outcome)+'</span><span class="td tm">'+e(v.date)+'</span></div>'+
+          '<button onclick="mEditVisit(\''+e(v.id)+'\')" class="btn bg_ bxs" style="flex-shrink:0">&#9998; Edit</button>'+
+          '</div>'+
+          (v.contact ? '<div class="td" style="font-size:11px;margin-top:4px">Contact: '+e(v.contact)+'</div>' : '')+
+          '<div style="font-size:12.5px;color:var(--txt2);margin-top:7px;line-height:1.55">'+e(v.notes)+'</div>'+
+          (v.intel ? '<div style="margin-top:6px;padding:6px 9px;background:var(--ambd);border-radius:4px;font-size:11.5px;color:var(--amb)">&#9889; '+e(v.intel)+'</div>' : '')+
+          (v.actionItems ? '<div style="margin-top:6px;padding:6px 9px;background:rgba(155,109,255,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--pur);font-weight:500">&#9776; Action Items:</span> <span style="color:var(--txt2)">'+e(v.actionItems)+'</span></div>' : '')+
+          (v.ns ? '<div style="margin-top:6px;padding:6px 9px;background:rgba(45,125,210,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--blul)">&#8594; Next ('+e(v.nsd||'TBD')+'):</span> '+e(v.ns)+'</div>' : '')+
+          '</div>';
+      }).join('')
+    : '<div class="emp"><div class="ei">&#128221;</div><p style="font-size:12px">No sales calls yet</p></div>';
+
+  // Notes log entries
+  var notesLogHTML = accNotes.length
+    ? accNotes.map(function(n){
+        return '<div style="padding:11px 0;border-bottom:1px solid var(--bdr)">'+
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px">'+
+          '<div style="font-size:12.5px;color:var(--txt);line-height:1.6;flex:1">'+e(n.text)+'</div>'+
+          '<button onclick="deleteNote(\''+e(n.id)+'\',\''+e(id)+'\')" style="background:none;border:none;cursor:pointer;color:var(--txt3);font-size:13px;flex-shrink:0;padding:0 2px;line-height:1" title="Delete note">&#10005;</button>'+
+          '</div>'+
+          '<div style="display:flex;gap:10px;font-size:10.5px;color:var(--txt3);font-family:var(--mono)">'+
+          '<span>'+e(n.author||'SR')+'</span><span>'+e(fmtTs(n.ts))+'</span>'+
+          '</div>'+
+          '</div>';
+      }).join('')
+    : '<div style="padding:10px 0;font-size:12px;color:var(--txt3)">No notes yet — add the first one below.</div>';
+
+  c.innerHTML =
+    '<div style="margin-bottom:12px;display:flex;gap:8px;flex-wrap:wrap">'+
+    segB(d.segment)+
+    '<span class="badge '+stageC(d.stage)+'">'+e(stageL(d.stage))+'</span>'+
+    '<span class="badge '+(d.acctSetup==='Yes'?'bg':'br')+'">Acct Setup: '+e(d.acctSetup||'No')+'</span>'+
+    '<span class="badge '+(d.stocking==='Yes'?'bg':d.stocking==='In-Process'?'by':'bgr')+'">Stocking: '+e(d.stocking||'No')+'</span>'+
+    '</div>'+
+    '<div class="g2 sep">'+
+      '<div class="card"><div class="chd">Account Details</div><div class="fg">'+detRows+'</div>'+
+      (d.notes?'<div class="dv"></div><div style="font-size:11.5px;color:var(--txt3);font-family:var(--mono);margin-bottom:4px">IMPORTED NOTES</div><div style="font-size:12px;color:var(--txt2);line-height:1.6;padding:8px;background:rgba(255,255,255,0.025);border-radius:5px">'+e(d.notes)+'</div>':'')+
+      '</div>'+
+      '<div>'+
+        '<div class="card sep"><div class="sh"><div class="stl">Contacts ('+contacts.length+')</div><button class="btn bg_ bxs" data-act="newContact" data-did="'+e(id)+'">+ Add</button></div>'+coHTML+'</div>'+
+        '<div class="card"><div class="chd">Health Score</div>'+
+        '<div style="display:flex;align-items:center;gap:16px">'+
+        '<svg width="72" height="72" viewBox="0 0 72 72" style="flex-shrink:0">'+
+        '<circle cx="36" cy="36" r="28" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="9"/>'+
+        '<circle cx="36" cy="36" r="28" fill="none" stroke="'+hcol(r)+'" stroke-width="9" '+
+        'stroke-dasharray="'+dash.toFixed(1)+' '+sc.toFixed(1)+'" '+
+        'stroke-dashoffset="0" transform="rotate(-90 36 36)" stroke-linecap="round"/>'+
+        '<text x="36" y="42" text-anchor="middle" style="font-family:var(--disp);font-size:17px;fill:var(--txt);font-weight:700">'+r+'</text></svg>'+
+        '<div><div style="font-size:13px;font-weight:500;margin-bottom:3px">'+r+'/100</div>'+
+        '<div class="td">Stage: '+e(stageL(d.stage))+'</div><div class="td">Calls logged: '+visits.length+'</div></div>'+
+        '</div></div>'+
+      '</div>'+
+    '</div>'+
+    // ── NOTES LOG ──
+    '<div class="card sep">'+
+      '<div class="sh"><div class="stl">Account Notes ('+accNotes.length+')</div></div>'+
+      '<div id="notes-log">'+notesLogHTML+'</div>'+
+      '<div style="margin-top:14px;border-top:1px solid var(--bdr);padding-top:14px">'+
+        '<textarea id="note-input" placeholder="Add a note..." style="width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--bdr2);border-radius:6px;padding:9px 11px;color:var(--txt);font-family:var(--sans);font-size:13px;outline:none;resize:vertical;min-height:72px;line-height:1.55;transition:border .15s" onfocus="this.style.borderColor=\'var(--blu)\'" onblur="this.style.borderColor=\'var(--bdr2)\'"></textarea>'+
+        '<div style="display:flex;justify-content:flex-end;margin-top:8px">'+
+          '<button class="btn bp bsm" onclick="addNote(\''+e(id)+'\')">Save Note</button>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+    // ── VISIT HISTORY ──
+    '<div class="card"><div class="sh"><div class="stl">Sales Call History ('+visits.length+')</div><button class="btn bg_ bxs" data-act="newVisit" data-did="'+e(id)+'">+ Log Sales Call</button></div>'+visHTML+'</div>';
+}
+
+function fmtTs(ts) {
+  if (!ts) return '—';
+  try {
+    var d = new Date(ts);
+    return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) +
+           ' ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  } catch(x) { return ts; }
+}
+
+function addNote(did) {
+  var inp = gi('note-input');
+  if (!inp) return;
+  var text = inp.value.trim();
+  if (!text) { inp.style.borderColor='var(--red)'; inp.focus(); return; }
+  if (!db.accountNotes) db.accountNotes = [];
+  var n = {
+    id: 'N' + String((db.nxt.N = (db.nxt.N||1))).padStart(4,'0'),
+    did: did,
+    text: text,
+    author: 'SR',
+    ts: new Date().toISOString()
+  };
+  db.nxt.N++;
+  db.accountNotes.push(n);
+  saveDB();
+  inp.value = '';
+  inp.style.borderColor = 'var(--bdr2)';
+  // Rebuild notes log in place without full page re-render
+  var accNotes = db.accountNotes.filter(function(x){ return x.did===did; }).sort(function(a,b){ return b.ts.localeCompare(a.ts); });
+  var log = gi('notes-log');
+  if (log) {
+    log.innerHTML = accNotes.map(function(n){
+      return '<div style="padding:11px 0;border-bottom:1px solid var(--bdr)">'+
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px">'+
+        '<div style="font-size:12.5px;color:var(--txt);line-height:1.6;flex:1">'+e(n.text)+'</div>'+
+        '<button onclick="deleteNote(\''+e(n.id)+'\',\''+e(did)+'\')" style="background:none;border:none;cursor:pointer;color:var(--txt3);font-size:13px;flex-shrink:0;padding:0 2px;line-height:1" title="Delete note">&#10005;</button>'+
+        '</div>'+
+        '<div style="display:flex;gap:10px;font-size:10.5px;color:var(--txt3);font-family:var(--mono)">'+
+        '<span>'+e(n.author||'SR')+'</span><span>'+e(fmtTs(n.ts))+'</span>'+
+        '</div>'+
+        '</div>';
+    }).join('');
+    // Update the section header count
+    var sh = log.closest('.card');
+    if (sh) {
+      var title = sh.querySelector('.stl');
+      if (title) title.textContent = 'Account Notes (' + accNotes.length + ')';
+    }
+  }
+  toast('Note saved', 'success');
+}
+
+function deleteNote(nid, did) {
+  if (!confirm('Delete this note?')) return;
+  db.accountNotes = (db.accountNotes||[]).filter(function(n){ return n.id!==nid; });
+  saveDB();
+  // Refresh notes log
+  var accNotes = db.accountNotes.filter(function(x){ return x.did===did; }).sort(function(a,b){ return b.ts.localeCompare(a.ts); });
+  var log = gi('notes-log');
+  if (log) {
+    log.innerHTML = accNotes.length
+      ? accNotes.map(function(n){
+          return '<div style="padding:11px 0;border-bottom:1px solid var(--bdr)">'+
+            '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:5px">'+
+            '<div style="font-size:12.5px;color:var(--txt);line-height:1.6;flex:1">'+e(n.text)+'</div>'+
+            '<button onclick="deleteNote(\''+e(n.id)+'\',\''+e(did)+'\')" style="background:none;border:none;cursor:pointer;color:var(--txt3);font-size:13px;flex-shrink:0;padding:0 2px;line-height:1" title="Delete note">&#10005;</button>'+
+            '</div>'+
+            '<div style="display:flex;gap:10px;font-size:10.5px;color:var(--txt3);font-family:var(--mono)">'+
+            '<span>'+e(n.author||'SR')+'</span><span>'+e(fmtTs(n.ts))+'</span>'+
+            '</div>'+
+            '</div>';
+        }).join('')
+      : '<div style="padding:10px 0;font-size:12px;color:var(--txt3)">No notes yet.</div>';
+    var sh = log.closest('.card');
+    if (sh) { var title=sh.querySelector('.stl'); if(title) title.textContent='Account Notes ('+accNotes.length+')'; }
+  }
+  toast('Note deleted', 'success');
+}
+
+// ── STAGE FILTERED PIPELINE ───────────────────────────────────────────────
+function rStageFilt(c, stageParam) {
+  var labelMap = {'active':'Active (Demand Gen)','Supplier+Onboarding':'Supplier Onboarding','Prospect':'Prospects'};
+  gi('pt').textContent = labelMap[stageParam] || stageParam;
+  // Navigate to the full pipeline page, then programmatically set the filter
+  rDists(c, '');
+  // Set the stage dropdown and re-filter after the DOM is ready
+  setTimeout(function(){
+    var sel = document.getElementById('dstage');
+    if (sel) {
+      sel.value = stageParam.replace('+', ' ');
+      fDists('');
+    }
+  }, 0);
+}
+
+// ── REP DASHBOARD ─────────────────────────────────────────────────────────
+function rRepDash(c, rep) {
+  gi('pt').textContent = rep;
+  gi('ta').innerHTML = '<button class="btn bg_ bxs" data-go="dashboard">&#8592; Dashboard</button>';
+
+  var D = db.distributors.filter(function(d){ return (d.assignedRep||'Unassigned') === rep; });
+
+  var active    = D.filter(function(d){ return d.stage==='Demand Creation & Field Engagement'||d.stage==='customer'||d.stage==='canadian Customer'; });
+  var onb       = D.filter(function(d){ return d.stage==='Supplier Onboarding'; });
+  var prospects = D.filter(function(d){ return d.stage==='Prospect'; });
+  var stocking  = D.filter(function(d){ return d.stocking==='Yes'; });
+
+  // Stage bar
+  var stages   = ['Prospect','Supplier Onboarding','Demand Creation & Field Engagement'];
+  var sVals    = stages.map(function(s){ return D.filter(function(d){ return d.stage===s||(s==='Demand Creation & Field Engagement'&&(d.stage==='customer'||d.stage==='canadian Customer')); }).length; });
+  var maxSV    = Math.max.apply(null, sVals.concat([1]));
+  var sCols    = ['rgba(255,255,255,0.15)','var(--blu)','var(--grn)'];
+  var stageHTML = stages.map(function(s,i){
+    var cnt = sVals[i];
+    var stageParam = s==='Demand Creation & Field Engagement'?'active':s==='Supplier Onboarding'?'Supplier+Onboarding':'Prospect';
+    return '<div data-go="stagefilt-'+e(stageParam)+'" style="margin-bottom:10px;cursor:pointer" title="View '+e(stageL(s))+' distributors">'+
+      '<div style="display:flex;justify-content:space-between;margin-bottom:3px">'+
+      '<span style="font-size:12px;color:var(--txt2)">'+e(stageL(s))+'</span>'+
+      '<span class="tm" style="color:var(--blul)">'+cnt+'</span>'+
+      '</div>'+
+      '<div style="height:6px;background:rgba(255,255,255,0.05);border-radius:4px">'+
+      '<div style="height:100%;width:'+Math.round(cnt/Math.max(maxSV,1)*100)+'%;background:'+sCols[i]+';border-radius:4px"></div>'+
+      '</div></div>';
+  }).join('');
+
+  // Segment breakdown
+  var bySeg = {};
+  D.forEach(function(d){ bySeg[d.segment]=(bySeg[d.segment]||0)+1; });
+  var segHTML = Object.keys(bySeg).map(function(s){
+    var dest = s==='B2B/IND'?'ind':s==='B2B/AUTO'?'auto':'intl';
+    return '<div data-go="'+e(dest)+'" style="flex:1;min-width:80px;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:6px;text-align:center;cursor:pointer;transition:border .15s" onmouseover="this.style.borderColor=\'var(--blu)\'" onmouseout="this.style.borderColor=\'var(--bdr)\'"><div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:3px">'+e(s)+'</div><div style="font-family:var(--disp);font-size:22px;font-weight:700;color:var(--blul)">'+bySeg[s]+'</div></div>';
+  }).join('');
+
+  // Recent calls for this rep's accounts
+  var repDids = D.map(function(d){ return d.id; });
+  var calls = db.visits.filter(function(v){ return repDids.indexOf(v.did) >= 0; }).sort(function(a,b){ return b.date.localeCompare(a.date); }).slice(0,5);
+  var callHTML = calls.length
+    ? calls.map(function(v){
+        return '<div style="padding:8px 0;border-bottom:1px solid var(--bdr)">'+
+          '<div style="display:flex;justify-content:space-between"><span class="tl" data-go="dist-'+e(v.did)+'">'+e(v.distName||'—')+'</span><span class="td tm">'+e(v.date)+'</span></div>'+
+          '<div style="display:flex;gap:6px;margin-top:3px"><span class="pill">'+e(v.type)+'</span><span class="badge bgr" style="font-size:10px">'+e(v.outcome)+'</span></div>'+
+          '</div>';
+      }).join('')
+    : '<div class="td" style="padding:8px 0">No sales calls logged for this rep\'s accounts.</div>';
+
+  // Full account table
+  var tableRows = D.map(function(d){
+    var dy = d.lastVisit ? Math.floor((Date.now()-new Date(d.lastVisit).getTime())/86400000) : 999;
+    var vc = dy > 60 ? 'var(--red)' : dy > 30 ? 'var(--yel)' : dy < 999 ? 'var(--grn)' : 'var(--txt3)';
+    return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer">'+
+      '<td class="tl">'+e(d.name)+'</td>'+
+      '<td>'+segB(d.segment)+'</td>'+
+      '<td><span class="badge '+stageC(d.stage)+'" style="font-size:10px">'+e(stageL(d.stage))+'</span></td>'+
+      '<td><span class="badge '+(d.acctSetup==='Yes'?'bg':d.acctSetup==='In-Process'?'by':'br')+'" style="font-size:10px">'+e(d.acctSetup||'No')+'</span></td>'+
+      '<td><span class="badge '+(d.stocking==='Yes'?'bg':d.stocking==='In-Process'?'by':'bgr')+'" style="font-size:10px">'+e(d.stocking||'No')+'</span></td>'+
+      '<td style="font-size:12px;color:'+vc+'">'+e(d.lastVisit||'—')+'</td>'+
+      '<td style="font-size:11.5px;color:var(--txt2);max-width:220px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px">'+e(d.notes||'—')+'</div></td>'+
+      '</tr>';
+  }).join('');
+
+  c.innerHTML =
+    // Header banner
+    '<div style="background:var(--sur);border:1px solid var(--bdr);border-radius:var(--rad);padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:16px">'+
+      '<div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blu),var(--tel));display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:18px;font-weight:700;flex-shrink:0">'+e(rep.charAt(0).toUpperCase())+'</div>'+
+      '<div>'+
+        '<div style="font-family:var(--disp);font-size:20px;font-weight:400">'+e(rep)+'</div>'+
+        '<div style="font-size:12px;color:var(--txt2);margin-top:2px">Rep Agency &middot; '+D.length+' accounts assigned</div>'+
+      '</div>'+
+    '</div>'+
+    // Stats row
+    '<div class="g4 sep">'+
+      '<div class="stat"><div class="sl">Total Accounts</div><div class="sv">'+D.length+'</div></div>'+
+      '<div class="stat"><div class="sl">Active</div><div class="sv up">'+active.length+'</div><div class="ss">Demand Gen</div></div>'+
+      '<div class="stat"><div class="sl">Onboarding</div><div class="sv am">'+onb.length+'</div></div>'+
+      '<div class="stat"><div class="sl">Stocking Programs</div><div class="sv" style="color:var(--grn)">'+stocking.length+'</div></div>'+
+    '</div>'+
+    // Pipeline + recent calls
+    '<div class="g2 sep">'+
+      '<div class="card">'+
+        '<div class="chd">Pipeline by Stage</div>'+stageHTML+
+        '<div class="dv"></div>'+
+        '<div class="chd">By Segment</div>'+
+        '<div style="display:flex;gap:10px;flex-wrap:wrap">'+segHTML+'</div>'+
+      '</div>'+
+      '<div class="card">'+
+        '<div class="chd">Recent Sales Calls</div>'+callHTML+
+      '</div>'+
+    '</div>'+
+    // Full account list
+    '<div class="card" style="padding:0;overflow:hidden">'+
+      '<div style="padding:14px 18px 10px;border-bottom:1px solid var(--bdr)">'+
+        '<div class="stl">All Accounts ('+D.length+')</div>'+
+      '</div>'+
+      '<div class="tw"><table>'+
+        '<thead><tr>'+
+          '<th>Distributor</th><th>Segment</th><th>Stage</th><th>Acct Setup</th><th>Stocking</th><th>Last Sales Call</th><th style="min-width:180px">Notes</th>'+
+        '</tr></thead>'+
+        '<tbody>'+tableRows+'</tbody>'+
+      '</table></div>'+
+    '</div>';
+}
+
+// ── TASKS LIST ────────────────────────────────────────────────────────────
+var tSort = {k:'nsd', d:1};
+
+function mkTTh(label, key, minWidth) {
+  var active = tSort.k === key;
+  var arrow  = active ? (tSort.d === 1 ? ' ▲' : ' ▼') : ' ⇅';
+  var col    = active ? 'color:var(--blul);' : '';
+  var style  = (minWidth ? 'min-width:'+minWidth+';' : '') + col + 'cursor:pointer;user-select:none';
+  return '<th data-tsort="'+e(key)+'" style="'+style+'">'+e(label)+'<span style="font-size:9px;color:'+(active?'var(--blul)':'var(--txt3)')+'">'+arrow+'</span></th>';
+}
+
+function rTasks(c) {
+  gi('ta').innerHTML = '<button class="btn bp bsm" data-act="newVisit">+ Log Sales Call</button><button class="btn bg_ bsm" onclick="xTasksCsv()">&#8595; Export CSV</button>';
+
+  c.innerHTML =
+    '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'+
+    '<input class="sinp" id="tsrch" placeholder="Search customer, contact, next step..." style="flex:1;min-width:200px">'+
+    '<select class="fsel" id="tnsfilt">'+
+      '<option value="">All Next Steps</option>'+
+      ['Follow Up','Complete Action Items','Send Product Information','Send Program Information','Send Samples'].map(function(o){return'<option>'+o+'</option>';}).join('')+
+    '</select>'+
+    '<select class="fsel" id="tdate">'+
+      '<option value="">All Dates</option>'+
+      '<option value="overdue">Overdue</option>'+
+      '<option value="today">Due Today</option>'+
+      '<option value="week">Due This Week</option>'+
+      '<option value="future">Future</option>'+
+      '<option value="none">No Date Set</option>'+
+    '</select>'+
+    '</div>'+
+    '<div class="card" style="padding:0;overflow:hidden">'+
+    '<div class="tw"><table id="taskstbl">'+
+    '<thead><tr id="taskshead"></tr></thead>'+
+    '<tbody id="tasksbody"></tbody>'+
+    '</table></div></div>';
+
+  gi('tsrch').addEventListener('input', renderTaskRows);
+  gi('tnsfilt').addEventListener('change', renderTaskRows);
+  gi('tdate').addEventListener('change', renderTaskRows);
+
+  // Column sort delegation on thead
+  gi('taskstbl').addEventListener('click', function(ev) {
+    var th = ev.target.closest('th[data-tsort]');
+    if (!th) return;
+    var k = th.dataset.tsort;
+    tSort.d = tSort.k === k ? -tSort.d : 1;
+    tSort.k = k;
+    renderTaskRows();
+  });
+
+  renderTaskRows();
+}
+
+function renderTaskRows() {
+  var q   = (gi('tsrch')||{}).value||''; q = q.toLowerCase();
+  var nsf = (gi('tnsfilt')||{}).value||'';
+  var dtf = (gi('tdate')||{}).value||'';
+  var today = new Date(); today.setHours(0,0,0,0);
+  var weekEnd = new Date(today); weekEnd.setDate(today.getDate()+7);
+
+  // Rebuild header with current sort indicators
+  var head = gi('taskshead');
+  if (head) {
+    head.innerHTML =
+      mkTTh('Call Date','date')+
+      mkTTh('Customer','distName')+
+      mkTTh('Sales Rep','rep')+
+      mkTTh('Contact Met','contact')+
+      mkTTh('Next Step','ns')+
+      mkTTh('Next Step Date','nsd')+
+      '<th style="min-width:220px;cursor:pointer;user-select:none" data-tsort="actionItems">Action Items<span style="font-size:9px;color:'+(tSort.k==='actionItems'?'var(--blul)':'var(--txt3)')+'">'+(tSort.k==='actionItems'?(tSort.d===1?' ▲':' ▼'):'⇅')+'</span></th>'+
+      '<th style="width:100px">Status</th>';
+  }
+
+  var rows = db.visits.filter(function(v){
+    if (!v.ns && !v.actionItems) return false;
+    if (q && !((v.distName||'').toLowerCase().indexOf(q)>=0 ||
+               (v.contact||'').toLowerCase().indexOf(q)>=0 ||
+               (v.ns||'').toLowerCase().indexOf(q)>=0 ||
+               (v.actionItems||'').toLowerCase().indexOf(q)>=0)) return false;
+    if (nsf && v.ns !== nsf) return false;
+    if (dtf) {
+      var d = v.nsd ? new Date(v.nsd) : null;
+      if (d) d.setHours(0,0,0,0);
+      if (dtf==='overdue' && !(d && d < today))   return false;
+      if (dtf==='today'   && !(d && d.getTime()===today.getTime())) return false;
+      if (dtf==='week'    && !(d && d >= today && d <= weekEnd))    return false;
+      if (dtf==='future'  && !(d && d > weekEnd)) return false;
+      if (dtf==='none'    && v.nsd) return false;
+    }
+    return true;
+  });
+
+  // Sort by selected column
+  rows.sort(function(a, b) {
+    var va = (a[tSort.k]||'').toString().toLowerCase();
+    var vb = (b[tSort.k]||'').toString().toLowerCase();
+    // Empty values always go last regardless of direction
+    if (!va && !vb) return 0;
+    if (!va) return 1;
+    if (!vb) return -1;
+    return va.localeCompare(vb) * tSort.d;
+  });
+
+  var tb = gi('tasksbody'); if (!tb) return;
+
+  if (!rows.length) {
+    tb.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--txt3);padding:28px">No tasks found</td></tr>';
+    return;
+  }
+
+  tb.innerHTML = rows.map(function(v){
+    var d = v.nsd ? new Date(v.nsd) : null;
+    if (d) d.setHours(0,0,0,0);
+    var today2 = new Date(); today2.setHours(0,0,0,0);
+    var daysOverdue = d ? Math.floor((today2 - d) / 86400000) : 0;
+    var overdue = d && d < today2;
+    var isToday = d && d.getTime() === today2.getTime();
+    var slightlyOverdue = overdue && daysOverdue <= 10;
+    var veryOverdue     = overdue && daysOverdue > 10;
+    var rowBg = veryOverdue     ? 'background:rgba(240,82,82,0.07);'
+              : slightlyOverdue ? 'background:rgba(245,197,66,0.07);'
+              : '';
+    var dateCol = !v.nsd ? '<span style="color:var(--txt3)">—</span>'
+      : veryOverdue     ? '<span style="color:var(--red);font-weight:500">'+e(v.nsd)+'<br><span style="font-size:10px;font-family:var(--mono)">'+daysOverdue+'d OVERDUE</span></span>'
+      : slightlyOverdue ? '<span style="color:var(--yel);font-weight:500">'+e(v.nsd)+'<br><span style="font-size:10px;font-family:var(--mono)">'+daysOverdue+'d OVERDUE</span></span>'
+      : isToday         ? '<span style="color:var(--yel);font-weight:500">'+e(v.nsd)+'<br><span style="font-size:10px;font-family:var(--mono)">TODAY</span></span>'
+      : '<span>'+e(v.nsd)+'</span>';
+
+    return '<tr style="'+rowBg+'">'+
+      '<td class="td tm">'+e(v.date)+'</td>'+
+      '<td class="tl" data-go="dist-'+e(v.did)+'" style="cursor:pointer">'+e(v.distName||'—')+'</td>'+
+      '<td class="td">'+e(v.rep||'SR')+'</td>'+
+      '<td class="td">'+e(v.contact||'—')+'</td>'+
+      '<td>'+(v.ns?'<span class="badge bb" style="font-size:10px">'+e(v.ns)+'</span>':'<span style="color:var(--txt3)">—</span>')+'</td>'+
+      '<td>'+dateCol+'</td>'+
+      '<td style="font-size:12px;color:var(--txt2)">'+e(v.actionItems||'—')+'</td>'+
+      '<td><button onclick="completeTask(\''+e(v.id)+'\')" class="btn bxs" style="white-space:nowrap;background:'+(v.taskCompleted?'var(--grn)':'var(--red)')+';color:#fff;border:none">'+(v.taskCompleted?'&#10003; Complete':'&#9679; Pending')+'</button></td>'+
+      '</tr>';
+  }).join('');
+
+  // Customer name cells use data-go — caught by the existing #ct delegated listener
+}
+
+function completeTask(vid) {
+  var v = db.visits.find(function(x){ return x.id===vid; });
+  if (!v) return;
+  v.taskCompleted = !v.taskCompleted;
+  saveDB();
+  // Update just the button in place — no full re-render
+  var btns = document.querySelectorAll('button[onclick]');
+  for (var i = 0; i < btns.length; i++) {
+    var oc = btns[i].getAttribute('onclick') || '';
+    if (oc.indexOf(vid) >= 0) {
+      if (v.taskCompleted) {
+        btns[i].style.background = 'var(--grn)';
+        btns[i].innerHTML = '&#10003; Complete';
+        toast('Task marked complete', 'success');
+      } else {
+        btns[i].style.background = 'var(--red)';
+        btns[i].innerHTML = '&#9679; Pending';
+        toast('Task marked pending', 'success');
+      }
+      break;
+    }
+  }
+}
+
+
+function xTasksCsv() {
+  var rows = db.visits.filter(function(v){ return v.ns || v.actionItems; });
+  var hdr = 'Call Date,Customer,Sales Rep,Contact Met,Next Step,Next Step Date,Action Items';
+  var body = rows.map(function(v){
+    return [v.date,v.distName||'',v.rep||'SR',v.contact||'',v.ns||'',v.nsd||'','"'+(v.actionItems||'').replace(/"/g,"'")+'"'].join(',');
+  }).join('\n');
+  var blob = new Blob([hdr+'\n'+body],{type:'text/csv'});
+  var a = document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='tasks_list.csv'; a.click();
+  toast('Tasks exported','success');
+}
+
+// ── OPPORTUNITIES ─────────────────────────────────────────────────────────
+function rOpps(c) {
+  gi('ta').innerHTML = '<button class="btn bp bsm" data-act="newVisit">+ Log Sales Call</button>';
+
+  // All calls with outcome = Opportunity Created, newest first
+  var oppCalls = db.visits.filter(function(v){
+    return v.outcome === 'Opportunity Created';
+  }).sort(function(a,b){ return b.date.localeCompare(a.date); });
+
+  // Deduplicate to get unique distributors with their most recent opp call
+  var seen = {};
+  var oppDists = [];
+  oppCalls.forEach(function(v){
+    if (!seen[v.did]) {
+      seen[v.did] = true;
+      var d = db.distributors.find(function(x){ return x.id===v.did; });
+      if (d) oppDists.push({dist:d, call:v});
+    }
+  });
+
+  // Stat boxes
+  var totalOpps = oppCalls.length;
+  var uniqueAccts = oppDists.length;
+  var thisMonth = oppCalls.filter(function(v){ return v.date && v.date.substring(0,7) === new Date().toISOString().substring(0,7); }).length;
+  var segs = {};
+  oppDists.forEach(function(o){ segs[o.dist.segment]=(segs[o.dist.segment]||0)+1; });
+
+  var segHTML = Object.keys(segs).map(function(s){
+    return '<div style="flex:1;min-width:80px;padding:10px;background:rgba(255,255,255,0.03);border:1px solid var(--bdr);border-radius:6px;text-align:center"><div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:3px">'+e(s)+'</div><div style="font-family:var(--disp);font-size:22px;font-weight:700;color:var(--blul)">'+segs[s]+'</div></div>';
+  }).join('');
+
+  // Sort state
+  var oppSk = 'name', oppSd = 1;
+
+  function mkOppTh(label, key, minWidth) {
+    var active = oppSk === key;
+    var arrow = active ? (oppSd === 1 ? ' ▲' : ' ▼') : ' ⇅';
+    var style = (minWidth ? 'min-width:'+minWidth+';' : '') + (active ? 'color:var(--blul);' : '') + 'cursor:pointer;user-select:none';
+    return '<th data-opp-sort="'+key+'" style="'+style+'">'+label+'<span style="font-size:9px;color:'+(active?'var(--blul)':'var(--txt3)')+'">'+arrow+'</span></th>';
+  }
+
+  function buildOppRows() {
+    var sorted = oppDists.slice().sort(function(a,b){
+      var va, vb;
+      if (oppSk === 'name')    { va=a.dist.name||'';      vb=b.dist.name||''; }
+      else if (oppSk === 'segment') { va=a.dist.segment||'';   vb=b.dist.segment||''; }
+      else if (oppSk === 'stage')   { va=stageL(a.dist.stage); vb=stageL(b.dist.stage); }
+      else if (oppSk === 'date')    { va=a.call.date||'';      vb=b.call.date||''; }
+      else if (oppSk === 'contact') { va=a.call.contact||'';   vb=b.call.contact||''; }
+      else if (oppSk === 'type')    { va=a.call.type||'';      vb=b.call.type||''; }
+      else { va=''; vb=''; }
+      va=va.toLowerCase(); vb=vb.toLowerCase();
+      if(!va&&!vb)return 0; if(!va)return 1; if(!vb)return -1;
+      return va.localeCompare(vb)*oppSd;
+    });
+    return sorted.map(function(o){
+      var d=o.dist, v=o.call;
+      return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer">'+
+        '<td class="tl">'+e(d.name)+'</td>'+
+        '<td>'+segB(d.segment)+'</td>'+
+        '<td><span class="badge '+stageC(d.stage)+'" style="font-size:10px">'+e(stageL(d.stage))+'</span></td>'+
+        '<td class="td tm">'+e(v.date)+'</td>'+
+        '<td class="td">'+e(v.contact||'—')+'</td>'+
+        '<td><span class="pill">'+e(v.type)+'</span></td>'+
+        '<td style="font-size:12px;color:var(--txt2);max-width:240px"><div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px">'+e(v.notes||'—')+'</div></td>'+
+        '</tr>';
+    }).join('');
+  }
+
+  function buildOppHead() {
+    return mkOppTh('Distributor','name','140px')+
+      mkOppTh('Segment','segment')+
+      mkOppTh('Stage','stage')+
+      mkOppTh('Last Opp Date','date')+
+      mkOppTh('Contact','contact')+
+      mkOppTh('Call Type','type')+
+      '<th style="min-width:200px;color:var(--txt3)">Call Notes</th>';
+  }
+
+  // All opp calls log
+  var allCallsHTML = oppCalls.map(function(v){
+    return '<div class="vc opp">'+
+      '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:center">'+
+      '<span class="tl" data-go="dist-'+e(v.did)+'">'+e(v.distName||'—')+'</span>'+
+      '<div style="display:flex;gap:6px;align-items:center"><span class="pill">'+e(v.type)+'</span><span class="td tm">'+e(v.date)+'</span></div>'+
+      '</div>'+
+      (v.contact?'<div class="td" style="font-size:11px;margin-top:4px">Contact: '+e(v.contact)+'</div>':'')+
+      '<div style="font-size:12.5px;color:var(--txt2);margin-top:7px;line-height:1.55">'+e(v.notes)+'</div>'+
+      (v.actionItems?'<div style="margin-top:6px;padding:6px 9px;background:rgba(155,109,255,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--pur);font-weight:500">&#9776; Action Items:</span> <span style="color:var(--txt2)">'+e(v.actionItems)+'</span></div>':'')+
+      (v.ns?'<div style="margin-top:6px;padding:6px 9px;background:rgba(45,125,210,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--blul)">&#8594; Next ('+e(v.nsd||'TBD')+'):</span> '+e(v.ns)+'</div>':'')+
+      '</div>';
+  }).join('');
+
+  c.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px">'+
+    '<div class="stat"><div class="sl">Total Opp Calls</div><div class="sv" style="color:var(--grn)">'+totalOpps+'</div></div>'+
+    '<div class="stat"><div class="sl">Accounts w/ Opps</div><div class="sv" style="color:var(--blul)">'+uniqueAccts+'</div></div>'+
+    '<div class="stat"><div class="sl">This Month</div><div class="sv am">'+thisMonth+'</div></div>'+
+    '</div>'+
+    (segHTML ? '<div class="card sep"><div class="chd">By Segment</div><div style="display:flex;gap:10px;flex-wrap:wrap">'+segHTML+'</div></div>' : '')+
+    (oppDists.length === 0
+      ? '<div class="emp"><div class="ei">&#127775;</div><p>No opportunities logged yet. Log a sales call with outcome "Opportunity Created" to see them here.</p></div>'
+      : '<div class="card sep" style="padding:0;overflow:hidden"><div style="padding:14px 18px 10px;border-bottom:1px solid var(--bdr)"><div class="stl">Accounts with Opportunities ('+uniqueAccts+')</div></div>'+
+        '<div class="tw"><table id="opp-tbl"><thead><tr id="opp-head">'+buildOppHead()+'</tr></thead><tbody id="opp-body">'+buildOppRows()+'</tbody></table></div></div>')+
+    (oppCalls.length > 0
+      ? '<div class="card"><div class="sh"><div class="stl">All Opportunity Calls ('+oppCalls.length+')</div></div>'+allCallsHTML+'</div>'
+      : '');
+
+  // Delegated sort on the table header
+  var tbl = gi('opp-tbl');
+  if (tbl) {
+    tbl.addEventListener('click', function(ev){
+      var th = ev.target.closest('th[data-opp-sort]');
+      if (!th) return;
+      var key = th.dataset.oppSort;
+      oppSd = oppSk === key ? -oppSd : 1;
+      oppSk = key;
+      var head = gi('opp-head');
+      var body = gi('opp-body');
+      if (head) head.innerHTML = buildOppHead();
+      if (body) body.innerHTML = buildOppRows();
+    });
+  }
+}
+
+// ── VISITS ────────────────────────────────────────────────────────────────
+function rVisits(c) {
+  gi('ta').innerHTML = '<button class="btn bp bsm" data-act="newVisit">+ Log Sales Call</button>';
+  var visits = db.visits.slice().sort(function(a,b){ return b.date.localeCompare(a.date); });
+  var tm = visits.filter(function(v){ return v.date && v.date.substring(0,7)==='2026-03'; }).length;
+  var jc = visits.filter(function(v){
+    if (!v.date) return false;
+    var d = new Date(v.date); d.setHours(0,0,0,0);
+    var now = new Date(); now.setHours(0,0,0,0);
+    var day = now.getDay(); // 0=Sun,1=Mon,...
+    var weekStart = new Date(now); weekStart.setDate(now.getDate() - day);
+    var weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate() + 6);
+    return d >= weekStart && d <= weekEnd;
+  }).length;
+  var fu = visits.filter(function(v){ return v.outcome==='Follow-Up Needed'&&v.ns; }).length;
+  var fpd = visits.filter(function(v){ return v.outcome==='Follow-Up Needed'&&v.nsd&&new Date(v.nsd)<new Date(); }).length;
+
+  c.innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px">'+
+    '<div class="stat"><div class="sl">Total Calls</div><div class="sv">'+visits.length+'</div></div>'+
+    '<div class="stat"><div class="sl">This Month</div><div class="sv">'+tm+'</div></div>'+
+    '<div class="stat"><div class="sl">This Week</div><div class="sv">'+jc+'</div></div>'+
+    '<div class="stat"><div class="sl">Follow-Ups Pending</div><div class="sv am">'+fu+'</div></div>'+
+    '<div class="stat"><div class="sl">Follow Ups Past Due</div><div class="sv" style="color:'+(fpd>0?'var(--red)':'var(--grn)')+'">'+fpd+'</div><div class="ss">'+(fpd>0?'<span style="color:var(--red)">Past next step date</span>':'All on track')+'</div></div>'+
+    '</div>'+
+    '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'+
+    '<input class="sinp" id="vs" placeholder="Search..." style="flex:1;min-width:160px">'+
+    '<select class="fsel" id="vt"><option value="">All Call Types</option>'+
+    ['Distributor Sales Call','Branch Sales Call','Joint Sales Call','Training','Counter Day','Ride-Along','Phone Call','Video Call'].map(function(t){return '<option>'+e(t)+'</option>';}).join('')+
+    '</select>'+
+    '<select class="fsel" id="vo"><option value="">All Outcomes</option>'+
+    ['Follow-Up Needed','Opportunity Created','Training Delivered','Initiative Advanced','No Action','Issue Escalated'].map(function(o){return '<option>'+e(o)+'</option>';}).join('')+
+    '</select></div>'+
+    '<div id="vlist"></div>';
+
+  gi('vs').addEventListener('input', fV);
+  gi('vt').addEventListener('change', fV);
+  gi('vo').addEventListener('change', fV);
+  fV();
+}
+
+function fV() {
+  var q  = (tv('vs')||'').toLowerCase();
+  var t  = tv('vt');
+  var o  = tv('vo');
+  var vs = db.visits.filter(function(v){
+    return (!q||(v.distName||'').toLowerCase().indexOf(q)>=0||(v.notes||'').toLowerCase().indexOf(q)>=0)&&(!t||v.type===t)&&(!o||v.outcome===o);
+  }).sort(function(a,b){ return b.date.localeCompare(a.date); });
+
+  gi('vlist').innerHTML = vs.length
+    ? vs.map(function(v){
+        return '<div class="vc '+(v.outcome==='Opportunity Created'?'opp':v.outcome==='Training Delivered'?'train':v.outcome==='Issue Escalated'?'esc':'')+'">'+
+          '<div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">'+
+          '<div><span class="tl" data-go="dist-'+e(v.did)+'">'+e(v.distName||'—')+'</span><span class="pill" style="margin-left:8px">'+e(v.type)+'</span></div>'+
+          '<div style="display:flex;gap:6px"><span class="badge bgr" style="font-size:10px">'+e(v.outcome)+'</span><span class="td tm">'+e(v.date)+'</span></div>'+
+          '</div><p style="font-size:12.5px;color:var(--txt2);margin-top:7px;line-height:1.55">'+e(v.notes)+'</p>'+
+          (v.intel?'<div style="margin-top:6px;padding:6px 9px;background:var(--ambd);border-radius:4px;font-size:11.5px;color:var(--amb)">&#9889; '+e(v.intel)+'</div>':'')+
+          (v.actionItems?'<div style="margin-top:6px;padding:6px 9px;background:rgba(155,109,255,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--pur);font-weight:500">&#9776; Action Items:</span> <span style="color:var(--txt2)">'+e(v.actionItems)+'</span></div>':'')+
+          (v.ns?'<div style="margin-top:6px;padding:6px 9px;background:rgba(45,125,210,0.08);border-radius:4px;font-size:11.5px"><span style="color:var(--blul)">&#8594; Next ('+e(v.nsd||'TBD')+'):</span> '+e(v.ns)+'</div>':'')+
+          '</div>';
+      }).join('')
+    : '<div class="emp"><div class="ei">&#128221;</div><p>No sales calls logged. <span class="tl" data-act="newVisit">Log the first &#8594;</span></p></div>';
+}
+
+// ── REPORTS ───────────────────────────────────────────────────────────────
+function rReps(c) {
+  var D = db.distributors;
+  var byRep = {}, bySeg = {};
+  D.forEach(function(d) {
+    var r=d.assignedRep||'Unassigned', s=d.segment;
+    if(!byRep[r])byRep[r]={active:0,onb:0,pros:0,stk:0,tot:0};
+    if(!bySeg[s])bySeg[s]={active:0,onb:0,pros:0,stk:0,tot:0};
+    var isA=d.stage==='Demand Creation & Field Engagement'||d.stage==='customer'||d.stage==='canadian Customer';
+    var isO=d.stage==='Supplier Onboarding';
+    byRep[r].tot++; bySeg[s].tot++;
+    if(isA){byRep[r].active++;bySeg[s].active++;}
+    if(isO){byRep[r].onb++;bySeg[s].onb++;}
+    if(d.stage==='Prospect'){byRep[r].pros++;bySeg[s].pros++;}
+    if(d.stocking==='Yes'){byRep[r].stk++;bySeg[s].stk++;}
+  });
+
+  c.innerHTML =
+    '<div class="tabs">'+
+    '<div class="tab active" data-act="swRTab" data-tab="r1">Pipeline Summary</div>'+
+    '<div class="tab" data-act="swRTab" data-tab="r2">Rep Scorecard</div>'+
+    '<div class="tab" data-act="swRTab" data-tab="r3">Segment Detail</div>'+
+    '</div>'+
+    '<div id="r1">'+rSum(D)+'</div>'+
+    '<div id="r2" style="display:none">'+rRepSc(byRep)+'</div>'+
+    '<div id="r3" style="display:none">'+rSegD(D,bySeg)+'</div>';
+}
+
+function swRTab(tab) {
+  gi('ct').querySelectorAll('.tabs .tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab===tab); });
+  ['r1','r2','r3'].forEach(function(id){ var el=gi(id); if(el) el.style.display = id===tab ? 'block' : 'none'; });
+}
+
+function rSum(D) {
+  var stages=['Prospect','Supplier Onboarding','Demand Creation & Field Engagement'];
+  var sV=stages.map(function(s){return D.filter(function(d){return d.stage===s||(s==='Demand Creation & Field Engagement'&&(d.stage==='customer'||d.stage==='canadian Customer'));}).length;});
+  var maxV=Math.max.apply(null,sV.concat([1]));
+  var sc={'Yes':0,'No':0,'In-Process':0};D.forEach(function(d){var k=d.stocking||'No';sc[k]=(sc[k]||0)+1;});
+  var stkCol={'Yes':'var(--grn)','In-Process':'var(--yel)','No':'rgba(255,255,255,0.12)'};
+  var cols=['rgba(255,255,255,0.15)','var(--blu)','var(--grn)'];
+  var stocking_rows=D.filter(function(d){return d.stocking==='Yes';}).map(function(d){
+    return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer"><td class="tl">'+e(d.name)+'</td><td>'+segB(d.segment)+'</td><td class="td">'+e(d.assignedRep||'—')+'</td><td style="font-size:11.5px;color:var(--txt2);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e(d.notes||'—')+'</td></tr>';
+  }).join('');
+  return '<div class="g2 sep">'+
+    '<div class="card"><div class="chd">Stage Distribution</div>'+stages.map(function(s,i){var cnt=sV[i];return'<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12.5px">'+e(stageL(s))+'</span><span class="tm am">'+cnt+' ('+Math.round(cnt/D.length*100)+'%)</span></div><div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px"><div style="height:100%;width:'+Math.round(cnt/maxV*100)+'%;background:'+cols[i]+';border-radius:4px"></div></div></div>';}).join('')+'</div>'+
+    '<div class="card"><div class="chd">Stocking Program</div>'+Object.keys(sc).map(function(k){var v=sc[k];return'<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;margin-bottom:3px"><span style="font-size:12.5px">Stocking: '+e(k)+'</span><span class="tm am">'+v+' ('+Math.round(v/D.length*100)+'%)</span></div><div style="height:8px;background:rgba(255,255,255,0.05);border-radius:4px"><div style="height:100%;width:'+Math.round(v/D.length*100)+'%;background:'+stkCol[k]+';border-radius:4px"></div></div></div>';}).join('')+'</div>'+
+    '</div>'+
+    '<div class="card"><div class="chd">Distributors with Stocking Programs</div><div class="tw"><table><thead><tr><th>Distributor</th><th>Segment</th><th>Rep</th><th>Notes</th></tr></thead><tbody>'+stocking_rows+'</tbody></table></div></div>';
+}
+
+function rRepSc(byRep) {
+  var rows=Object.keys(byRep).sort(function(a,b){return byRep[b].tot-byRep[a].tot;}).map(function(r){
+    var v=byRep[r];return'<tr><td style="font-weight:500">'+e(r)+'</td><td class="tm am">'+v.tot+'</td><td class="tm up">'+v.active+'</td><td class="tm" style="color:var(--blul)">'+v.onb+'</td><td class="tm td">'+v.pros+'</td><td class="tm" style="color:var(--grn)">'+v.stk+'</td><td class="tm">'+(v.tot>0?Math.round((v.active+v.onb)/v.tot*100)+'%':'—')+'</td></tr>';
+  }).join('');
+  return '<div class="card"><div class="chd">Rep Agency Scorecard</div><div class="tw"><table><thead><tr><th>Rep Agency</th><th>Total</th><th>Active</th><th>Onboarding</th><th>Prospects</th><th>Stocking</th><th>Coverage%</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+
+function rSegD(D, bySeg) {
+  var cards=Object.keys(bySeg).map(function(seg){
+    var v=bySeg[seg];
+    return '<div class="card"><div class="chd">'+e(seg)+'</div><div style="font-family:var(--disp);font-size:32px;font-weight:700;margin-bottom:10px">'+v.tot+'</div>'+
+    [['Active',v.active,'var(--grn)'],['Onboarding',v.onb,'var(--blu)'],['Prospect',v.pros,'rgba(255,255,255,0.2)'],['Stocking',v.stk,'var(--amb)']].map(function(r){return'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:12px"><span style="color:var(--txt2)">'+r[0]+'</span><span style="color:'+r[2]+';font-family:var(--mono)">'+r[1]+'</span></div>';}).join('')+'</div>';
+  }).join('');
+  var allRows=D.map(function(d){
+    return '<tr data-go="dist-'+e(d.id)+'" style="cursor:pointer">'+
+    '<td class="tl">'+e(d.name)+'</td><td>'+segB(d.segment)+'</td>'+
+    '<td><span class="badge '+stageC(d.stage)+'" style="font-size:10px">'+e(stageL(d.stage))+'</span></td>'+
+    '<td><span class="badge '+(d.acctSetup==='Yes'?'bg':'br')+'" style="font-size:10px">'+e(d.acctSetup||'No')+'</span></td>'+
+    '<td><span class="badge '+(d.stocking==='Yes'?'bg':d.stocking==='In-Process'?'by':'bgr')+'" style="font-size:10px">'+e(d.stocking||'No')+'</span></td>'+
+    '<td class="td">'+e(d.assignedRep||'—')+'</td>'+
+    '<td style="font-size:11.5px;color:var(--txt2);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+e(d.notes||'—')+'</td></tr>';
+  }).join('');
+  return '<div class="g3 sep">'+cards+'</div><div class="card"><div class="chd">All Distributors</div><div class="tw"><table><thead><tr><th>Distributor</th><th>Segment</th><th>Stage</th><th>Acct Setup</th><th>Stocking</th><th>Rep</th><th>Notes</th></tr></thead><tbody>'+allRows+'</tbody></table></div></div>';
+}
+
+// ── MODALS ────────────────────────────────────────────────────────────────
+function mShow(html) { gi('mo').innerHTML = html; gi('ov').style.display = 'flex'; }
+function mClose()    { gi('ov').style.display = 'none'; }
+gi('ov').addEventListener('click', function(ev){ if(ev.target===gi('ov')) mClose(); });
+
+function optSel(val, opts) {
+  return opts.map(function(o){
+    var v=typeof o==='object'?o[0]:o, l=typeof o==='object'?o[1]:o;
+    return '<option value="'+e(v)+'"'+(val===v?' selected':'')+'>'+e(l)+'</option>';
+  }).join('');
+}
+
+function mDist(id) {
+  var d = id ? db.distributors.find(function(x){return x.id===id;}) : null;
+  if (!d) d = {};
+  mShow(
+    '<div class="mt">'+(id?'Edit':'New')+' Distributor</div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>Name *</label><input id="f0" value="'+e(d.name||'')+'"></div>'+
+    '<div class="fr"><label>Segment</label><select id="f1">'+optSel(d.segment,['B2B/IND','B2B/AUTO','B2B-INTL','B2B/BLM'])+'</select></div>'+
+    '<div class="fr"><label>Pipeline Stage</label><select id="f2">'+optSel(d.stage,['Prospect','Supplier Onboarding','Demand Creation & Field Engagement'])+'</select></div>'+
+    '<div class="fr"><label>Acct Setup</label><select id="f3">'+optSel(d.acctSetup,['Yes','No','In-Process'])+'</select></div>'+
+    '<div class="fr"><label>Stocking Program</label><select id="f4">'+optSel(d.stocking,['Yes','No','In-Process'])+'</select></div>'+
+    '<div class="fr"><label>Assigned Rep</label><input id="f5" value="'+e(d.assignedRep||'')+'"></div>'+
+    '<div class="fr"><label>Rep Name</label><input id="f6" value="'+e(d.repName||'')+'"></div>'+
+    '<div class="fr"><label>BC Customer #</label><input id="f7" value="'+e(d.erp||'')+'"></div>'+
+    '<div class="fr"><label>Distributor Type</label><select id="f9">'+optSel(d.distType||'',['','Stocking Distributor','Dropship Only','Stocking & Dropship','Prospect'])+'</select></div>'+
+    '</div>'+
+    '<div class="fr"><label>Notes</label><textarea id="f8">'+e(d.notes||'')+'</textarea></div>'+
+    '<div class="mft">'+
+    '<button class="btn bg_ bsm" onclick="mClose()">Cancel</button>'+
+    (id ? '<button class="btn bd bsm" onclick="delD(\''+e(id)+'\')">Delete</button>' : '')+
+    '<button class="btn bp bsm" onclick="saveDist(\''+e(id||'')+'\')">Save</button>'+
+    '</div>'
+  );
+}
+
+function saveDist(id) {
+  var name = tv('f0').trim(); if (!name){toast('Name required','error');return;}
+  var stg = tv('f2');
+  var data = { name:name, segment:tv('f1'), stage:stg, acctSetup:tv('f3'), stocking:tv('f4'),
+    assignedRep:tv('f5'), repName:tv('f6'), erp:tv('f7'), notes:tv('f8'), distType:tv('f9'),
+    status: stg==='Demand Creation & Field Engagement'?'Active':stg==='Supplier Onboarding'?'Onboarding':'Prospect',
+    score: stg==='Demand Creation & Field Engagement'?72:stg==='Supplier Onboarding'?45:30,
+    health: stg==='Demand Creation & Field Engagement'?'Healthy':'Watch',
+    tier:'Tier 2 - Growth',territory:'National',region:'National',role:'Primary Distributor',
+    cls:'National',pricing:'B',coop:false,lines:'',revYTD:0,revPrior:0,skus:0,
+    lastOrder:'',lastVisit:'',lastTrain:'',sow:0,nextReview:'' };
+  if (id) {
+    var idx = db.distributors.findIndex(function(x){return x.id===id;});
+    db.distributors[idx] = Object.assign({}, db.distributors[idx], data);
+    toast('Updated','success');
+  } else {
+    data.id = 'D' + String(db.nxt.D++).padStart(3,'0');
+    db.distributors.push(data);
+    toast('Created','success');
+  }
+  saveDB(); mClose();
+  go(id ? 'dist-'+id : (data.segment==='B2B/IND'?'ind':data.segment==='B2B/AUTO'?'auto':data.segment==='B2B/BLM'?'blm':'intl'));
+}
+
+function delD(id) {
+  if (!confirm('Delete this distributor?')) return;
+  db.distributors = db.distributors.filter(function(x){return x.id!==id;});
+  db.visits    = db.visits.filter(function(v){return v.did!==id;});
+  db.contacts  = db.contacts.filter(function(c){return c.did!==id;});
+  saveDB(); mClose(); toast('Deleted','success'); go('pipeline');
+}
+
+function mVisit(did) {
+  var today = new Date().toISOString().split('T')[0];
+  var distOpts = db.distributors.map(function(d){
+    return '<option value="'+e(d.id)+'"'+(did===d.id?' selected':'')+'>'+e(d.name)+' ('+e(d.segment)+')</option>';
+  }).join('');
+  mShow(
+    '<div class="mt">Log Sales Call</div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>Date *</label><input id="f0" type="date" value="'+today+'"></div>'+
+    '<div class="fr"><label>Call Type *</label><select id="f1">'+optSel('',['Phone Call','Teams Call','Face 2 Face Meeting','Training','Initial Introduction','Email','Prospecting Email','Program Presentation'])+'</select></div>'+
+    '<div class="fr" style="grid-column:1/-1"><label>Distributor *</label><select id="f2"><option value="">-- Select --</option>'+distOpts+'</select></div>'+
+    '<div class="fr"><label>Contact Met</label><input id="f3" placeholder="Who did you meet?"></div>'+
+    '<div class="fr"><label>Outcome *</label><select id="f4">'+optSel('',['Follow-Up Needed','Opportunity Created','Training Delivered','Initiative Advanced','No Action','Issue Escalated'])+'</select></div>'+
+    '</div>'+
+    '<div class="fr"><label>Call Notes *</label><textarea id="f5" placeholder="What was discussed, accomplished, and observed..."></textarea></div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>Next Step</label><select id="f6">'+optSel('',['','Follow Up','Complete Action Items','Send Product Information','Send Program Information','Send Samples'])+'</select></div>'+
+    '<div class="fr"><label>Next Step Date</label><input id="f7" type="date"></div>'+
+    '</div>'+
+    '<div class="fr"><label>Action Items</label><textarea id="f9" placeholder="List all action items from this call..."></textarea></div>'+
+    '<div class="fr"><label>Competitive Intel</label><input id="f8" placeholder="Competitor observations..."></div>'+
+    '<div class="mft">'+
+    '<button class="btn bg_ bsm" onclick="mClose()">Cancel</button>'+
+    '<button class="btn bp bsm" onclick="saveVisit()">Save Sales Call</button>'+
+    '</div>'
+  );
+}
+
+function saveVisit() {
+  var notes = tv('f5').trim(); if (!notes){toast('Notes required','error');return;}
+  var did   = tv('f2');         if (!did)  {toast('Select a distributor','error');return;}
+  var outcome = tv('f4');
+  var nsd   = tv('f7');
+  if (outcome==='Follow-Up Needed' && !nsd){toast('Next Step Date required','error');return;}
+  var dist = db.distributors.find(function(x){return x.id===did;});
+  var v = { id:'V'+String(db.nxt.V++).padStart(3,'0'), date:tv('f0'), rep:'SR',
+    type:tv('f1'), did:did, distName:dist?dist.name:'',
+    contact:tv('f3'), outcome:outcome, notes:notes, ns:tv('f6'), nsd:nsd, intel:tv('f8'), actionItems:tv('f9') };
+  db.visits.push(v);
+  if (dist && (!dist.lastVisit || v.date > dist.lastVisit)) dist.lastVisit = v.date;
+  saveDB(); mClose(); toast('Sales call logged','success');
+  if (pg==='visits') rVisits(gi('ct'));
+  else if (pg.indexOf('dist-')===0) rDistD(gi('ct'), did);
+  else go('visits');
+}
+
+function mEditVisit(vid) {
+  var v = db.visits.find(function(x){ return x.id===vid; });
+  if (!v) return;
+  mShow(
+    '<div class="mt">Edit Sales Call</div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>Date *</label><input id="ef0" type="date" value="'+e(v.date||'')+'"></div>'+
+    '<div class="fr"><label>Call Type *</label><select id="ef1">'+optSel(v.type,['Phone Call','Teams Call','Face 2 Face Meeting','Training','Initial Introduction','Email','Prospecting Email','Program Presentation'])+'</select></div>'+
+    '<div class="fr" style="grid-column:1/-1"><label>Distributor</label><input value="'+e(v.distName||'')+'\" disabled style="opacity:0.5"></div>'+
+    '<div class="fr"><label>Contact Met</label><input id="ef3" value="'+e(v.contact||'')+'"></div>'+
+    '<div class="fr"><label>Outcome *</label><select id="ef4">'+optSel(v.outcome,['Follow-Up Needed','Opportunity Created','Training Delivered','Initiative Advanced','No Action','Issue Escalated'])+'</select></div>'+
+    '</div>'+
+    '<div class="fr"><label>Call Notes *</label><textarea id="ef5">'+e(v.notes||'')+'</textarea></div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>Next Step</label><select id="ef6">'+optSel(v.ns,['','Follow Up','Complete Action Items','Send Product Information','Send Program Information','Send Samples'])+'</select></div>'+
+    '<div class="fr"><label>Next Step Date</label><input id="ef7" type="date" value="'+e(v.nsd||'')+'"></div>'+
+    '</div>'+
+    '<div class="fr"><label>Action Items</label><textarea id="ef9">'+e(v.actionItems||'')+'</textarea></div>'+
+    '<div class="fr"><label>Competitive Intel</label><input id="ef8" value="'+e(v.intel||'')+'"></div>'+
+    '<div class="mft">'+
+    '<button class="btn bg_ bsm" onclick="mClose()">Cancel</button>'+
+    '<button class="btn bd bsm" onclick="deleteVisit(\''+e(vid)+'\')">Delete</button>'+
+    '<button class="btn bp bsm" onclick="saveEditVisit(\''+e(vid)+'\')">Save Changes</button>'+
+    '</div>'
+  );
+}
+
+function saveEditVisit(vid) {
+  var notes = gi('ef5').value.trim();
+  if (!notes) { toast('Notes required','error'); return; }
+  var idx = db.visits.findIndex(function(x){ return x.id===vid; });
+  if (idx === -1) return;
+  var v = db.visits[idx];
+  v.date        = gi('ef0').value;
+  v.type        = gi('ef1').value;
+  v.contact     = gi('ef3').value;
+  v.outcome     = gi('ef4').value;
+  v.notes       = notes;
+  v.ns          = gi('ef6').value;
+  v.nsd         = gi('ef7').value;
+  v.intel       = gi('ef8').value;
+  v.actionItems = gi('ef9').value;
+  // Recalculate lastVisit on distributor
+  var dist = db.distributors.find(function(x){ return x.id===v.did; });
+  if (dist) {
+    var latest = db.visits.filter(function(x){ return x.did===v.did && x.date; }).map(function(x){ return x.date; }).sort().pop();
+    if (latest) dist.lastVisit = latest;
+  }
+  saveDB(); mClose(); toast('Sales call updated','success');
+  if (pg==='visits') rVisits(gi('ct'));
+  else if (pg==='tasks') rTasks(gi('ct'));
+  else if (pg.indexOf('dist-')===0) rDistD(gi('ct'), v.did);
+}
+
+function deleteVisit(vid) {
+  if (!confirm('Delete this sales call?')) return;
+  var v = db.visits.find(function(x){ return x.id===vid; });
+  var did = v ? v.did : null;
+  db.visits = db.visits.filter(function(x){ return x.id!==vid; });
+  if (did) {
+    var dist = db.distributors.find(function(x){ return x.id===did; });
+    if (dist) {
+      var latest = db.visits.filter(function(x){ return x.did===did && x.date; }).map(function(x){ return x.date; }).sort().pop();
+      dist.lastVisit = latest || '';
+    }
+  }
+  saveDB(); mClose(); toast('Sales call deleted','success');
+  if (pg==='visits') rVisits(gi('ct'));
+  else if (pg==='tasks') rTasks(gi('ct'));
+  else if (pg.indexOf('dist-')===0 && did) rDistD(gi('ct'), did);
+}
+
+function mContact(did) {
+  mShow(
+    '<div class="mt">Add Contact</div>'+
+    '<div class="fg">'+
+    '<div class="fr"><label>First Name *</label><input id="f0"></div>'+
+    '<div class="fr"><label>Last Name *</label><input id="f1"></div>'+
+    '<div class="fr"><label>Distributor</label><select id="f2">'+
+    db.distributors.map(function(d){return'<option value="'+e(d.id)+'"'+(did===d.id?' selected':'')+'>'+e(d.name)+'</option>';}).join('')+
+    '</select></div>'+
+    '<div class="fr"><label>Role</label><select id="f3">'+optSel('',['Buyer','Branch Manager','Outside Sales Rep','Counter Sales','Category Manager','Purchasing','Executive','Other'])+'</select></div>'+
+    '<div class="fr"><label>Email</label><input id="f4" type="email"></div>'+
+    '<div class="fr"><label>Phone</label><input id="f5"></div>'+
+    '</div>'+
+    '<div class="mft">'+
+    '<button class="btn bg_ bsm" onclick="mClose()">Cancel</button>'+
+    '<button class="btn bp bsm" onclick="saveContact()">Save</button>'+
+    '</div>'
+  );
+}
+
+function saveContact() {
+  var fn=tv('f0').trim(), ln=tv('f1').trim();
+  if(!fn||!ln){toast('Name required','error');return;}
+  var co={id:'C'+String(db.nxt.C++).padStart(3,'0'),fn:fn,ln:ln,
+    did:tv('f2'),role:tv('f3'),email:tv('f4'),phone:tv('f5'),
+    active:true,last:new Date().toISOString().split('T')[0]};
+  db.contacts.push(co); saveDB(); mClose(); toast('Contact added','success');
+  rDistD(gi('ct'), co.did);
+}
+
+function xcsv(seg) {
+  var rows = db.distributors.filter(function(d){return !seg||d.segment===seg;});
+  var hdr  = 'Name,Segment,Stage,Acct Setup,Distributor Type,Assigned Rep,Last Sales Call,BC Customer #,Notes';
+  var body = rows.map(function(d){
+    return [d.name,d.segment,d.stage,d.acctSetup||'',d.distType||'',d.assignedRep||'',d.lastVisit||'',d.erp||'',
+      '"'+(d.notes||'').replace(/"/g,"'")+'"'].join(',');
+  }).join('\n');
+  var blob = new Blob([hdr+'\n'+body],{type:'text/csv'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (seg ? seg.replace('/','_') : 'all_distributors')+'.csv';
+  a.click();
+  toast('Export downloaded','success');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+// Attach nav click handler
+document.getElementById('navEl').querySelectorAll('.ni').forEach(function(ni){
+  ni.addEventListener('click', function(){ go(ni.dataset.p); });
+});
+// Attach delegation to content and toolbar areas
+attachDelegation(document.getElementById('ct'));
+attachDelegation(document.getElementById('ta'));
+// Also catch clicks on report tabs which are inside #ct
+document.getElementById('ct').addEventListener('click', function(ev){
+  var el = ev.target;
+  while(el && el !== document.getElementById('ct')){
+    if(el.dataset.act === 'swRTab'){ swRTab(el.dataset.tab); return; }
+    el = el.parentElement;
+  }
+});
+
+go('dashboard');
+
+// Expose functions called from inline modal onclick attributes to global scope
+window.saveDist      = saveDist;
+window.saveVisit     = saveVisit;
+window.saveEditVisit = saveEditVisit;
+window.saveContact   = saveContact;
+window.mClose        = mClose;
+window.mEditVisit    = mEditVisit;
+window.delD          = delD;
+window.deleteVisit   = deleteVisit;
+window.addNote       = addNote;
+window.deleteNote    = deleteNote;
+window.completeTask  = completeTask;
+window.xTasksCsv     = xTasksCsv;
+})();
+</script>
+</body>
+</html>
